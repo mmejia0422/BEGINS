@@ -14,6 +14,15 @@
     </h:head>
 
     <h:body>
+        <h:form>
+        <h:panelGrid columns="2">
+            Language:
+            <h:selectOneMenu value="#{languageBean.localeCode}" onchange="submit()"
+                             valueChangeListener="#{languageBean.countryLocaleCodeChanged}">
+                <f:selectItems value="#{languageBean.countriesInMap}" />
+            </h:selectOneMenu>
+        </h:panelGrid>
+    </h:form>
         <div id="container">
             <div id="top" class = "ui-widget-header ui-corner-all">
                 <ui:insert name="top">SUPER BAKERY</ui:insert>
