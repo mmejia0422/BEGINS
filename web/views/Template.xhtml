@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <title>Super Bakery</title>
+    </h:head>
+
+    <h:body>
+        <div id="container">
+            <div id="top" class = "ui-widget-header ui-corner-all">
+                <ui:insert name="top">SUPER BAKERY</ui:insert>
+            </div>
+            <h:form>
+                <div align="right">
+                    <p:commandButton id="logutButton" value="Salir" icon="ui-icon-close" 
+                                     actionListener="#{loginBean.logout()}" styleClass="ui-priority-primary"
+                                     oncomplete="handleLoginRequest(xhr, status, args)"/>
+                </div>
+            </h:form>
+            <div id="menu">
+                <h:form>
+                    <!--<p:menubar>
+                        <p:menuitem value="Inicio" url="#{appBean.basePath}/inicio.xhtml" icon="ui-icon-home"/>
+                        <p:submenu rendered="true" label="Mantenimientos" icon="ui-icon-gear">
+                            <p:menuitem value="Usuarios" url="#{appBean.basePath}usuario/index.xhtml" />
+                            <p:menuitem value="Empleados" url="#{appBean.basePath}usuario/empleados.xhtml" />
+                            <p:menuitem value="Roles" url="#{appBean.basePath}usuario/roles.xhtml" />
+                            <p:separator />
+                            <p:menuitem value="Clientes" url="#{appBean.basePath}usuario/clientes.xhtml" />
+                            <p:menuitem value="Proveedores" url="#{appBean.basePath}usuario/proveedores.xhtml" />
+                            <p:separator />
+                            <p:menuitem value="Municipios" url="#{appBean.basePath}pais/municipio.xhtml" />
+                            <p:menuitem value="Departamentos" url="#{appBean.basePath}pais/depto.xhtml" />
+                            <p:menuitem value="Paises" url="#{appBean.basePath}pais/pais.xhtml" />
+                            <p:separator/>
+                            <p:menuitem value="Marcas" url="#{appBean.basePath}producto/marcas.xhtml" />
+                            <p:menuitem value="Categoria" url="#{appBean.basePath}producto/categorias.xhtml" />
+                            <p:menuitem value="Presentacion" url="#{appBean.basePath}producto/presentaciones.xhtml" />
+                            <p:menuitem value="Catalogo de productos" url="#{appBean.basePath}producto/cateProductos.xhtml" />
+                        </p:submenu>
+
+                        <p:submenu rendered="true" label="Ventas" icon="ui-icon-document-b">
+                            <p:menuitem value="Crear factura" url="#{appBean.basePath}factura/crearFactura.xhtml" icon="ui-icon-arrowreturnthick-1-w" />
+                        </p:submenu>
+                        <p:menuitem value="Salir" actionListener="" icon="ui-icon-close" oncomplete="handleLoginRequest(xhr, status, args)"/>
+                    </p:menubar>-->
+                    <nav class="navbar-default">
+                    <p:menubar id="menudynamic" model="#{menuBean.model}"/>
+                    </nav>
+                </h:form>
+            </div>
+
+            <div id="content" class="center_content ui-widget ui-widget-content ui-corner-all">
+                <ui:insert name="content">Content</ui:insert>
+            </div>
+            <div id="bottom" class = "ui-widget-header ui-corner-all">
+                <ui:insert name="bottom">&copy; 2015</ui:insert>
+            </div>
+        </div>
+        <script type="text/javascript">
+            function handleLoginRequest(xhr, status, args) {
+                if (args.loggedOut) {
+                    location.href = args.ruta;
+                }
+            }
+        </script>
+    </h:body>
+
+</html>
