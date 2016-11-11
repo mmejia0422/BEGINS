@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <f:facet name="first">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <title>Super Bakery</title>
+        </f:facet>
+        <f:facet name="middle">
+            <h:outputStylesheet name="./bootstrap/bootstrap.css"/>
+            <h:outputStylesheet name="./css/dashboard.css"/>
+            <script src="../../jquery/jquery-1.11.3.min.js"/>
+            <script name="./js/bootstrap.js"/>
+        </f:facet>
+        <f:facet name="last">
+            <h:outputStylesheet name="./css/font-awesome.css" />
+        </f:facet>
+    </h:head> 
+
+
+    <h:body>
+        
+        <h:form>
+        <h:panelGrid columns="2">
+            Language:
+            <h:selectOneMenu value="#{languageBean.localeCode}" onchange="submit()"
+                             valueChangeListener="#{languageBean.countryLocaleCodeChanged}">
+                <f:selectItems value="#{languageBean.countriesInMap}" />
+            </h:selectOneMenu>
+        </h:panelGrid>
+    </h:form>
+        
+        <div id="top" class="top">
+            <ui:insert name="top">Super Bakery</ui:insert>
+        </div>
+        
+        <div id="menu">
+                <h:form>
+                    <nav class="navbar-default">
+                    <p:menubar id="menudynamic" model="#{menuBean.model}"/>
+                    </nav>
+                </h:form>
+            </div>
+        
+        <div>
+            <div id="left">
+ 
+        <ul class="nav nav-sidebar">
+            <li class="active"><a>Sub Menus</a></li>
+            <li><a href="#">Reports</a></li>
+            <li><a href="#">Analytics</a></li>
+            <li><a href="#">Export</a></li>
+        </ul>
+        <ul class="nav nav-sidebar">
+            <li><a href="">Nav item</a></li>
+            <li><a href="">Nav item again</a></li>
+            <li><a href="">One more nav</a></li>
+            <li><a href="">Another nav item</a></li>
+            <li><a href="">More navigation</a></li>
+        </ul>
+        <ul class="nav nav-sidebar">
+            <li><a href="">Nav item again</a></li>
+            <li><a href="">One more nav</a></li>
+            <li><a href="">Another nav item</a></li>
+        </ul>        
+                
+            </div>
+            <div class="left_content">
+                <ui:insert name="content">Content</ui:insert>
+            </div>
+        </div>
+    </h:body>
+
+
+</html>
+
