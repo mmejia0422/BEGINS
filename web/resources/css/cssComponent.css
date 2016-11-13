@@ -7,3 +7,9 @@ form
 .myTable td:nth-child(1) {
     width: 20px;
 }
+
+.panelGrid { 
+    border-collapse: separate; 
+    border-spacing: 10px; 
+    *border-collapse: expression('separate', cellSpacing = '10px');
+}

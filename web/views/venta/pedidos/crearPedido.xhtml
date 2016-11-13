@@ -8,12 +8,7 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html">
 
     <head>
-
-        <script>
-            $(function () {
-                $("#datepicker").datepicker();
-            });
-        </script>
+        <h:outputStylesheet name="./css/cssComponent.css"/>
     </head>
 
     <body>
@@ -23,22 +18,39 @@
 
             <ui:define name="content">
                 <div class="container">
+                    
                     <h2>#{msg['hCrearPedido']}</h2>
                     <p:separator/>
-                    <h:form id="formCreate">
-                        <h:panelGrid columns="2" cellpadding="25" style="margin: 0 auto;">
+                    <br/>
+                    <h:form>
+                        <p:steps activeIndex="1" styleClass="custom" readonly="false">
+                        <p:menuitem value="Datos generales"/>
+                        <p:menuitem value="Detalle de orden" />
+                        <p:menuitem value="Selección de prioridad" />
+                        <p:menuitem value="Revisión" />
+                    </p:steps>
+                        </h:form>
+                    <br/>
+                    <h:form id="fDatos">
+                        <p:panelGrid columns="2" style="margin: 0 auto" class="companyHeaderGrid">
                             <p:outputLabel for="nombre" value="#{msg['lbNombreCliente']}" />
-                            <p:inputText id="nombre" placeholder="#{msg['phNombre']}" required="true"/>
-                            
+                            <p:inputText id="nombre" size="55" placeholder="#{msg['phNombre']}" required="true"/>
+
                             <p:outputLabel for="fechaPedido" value="#{msg['lbFechaPedido']}" />
                             <p:inputText id="fechaPedido" value="#{currentDate}" disabled="true" required="true">
                                 <f:convertDateTime pattern="dd-MMM-yy hh:mm aa"/>
                             </p:inputText>
                             
                             <p:outputLabel for="fechaEntrega" value="#{msg['lbFechaEntrega']}" />
-                            <p:calendar id="fechaEntrega" mindate="4-JUN-14" maxdate="7-JUL-14" pattern="dd-MMM-yy" required="true"/>
-                        </h:panelGrid>
-                        </h:form>
+                            <p:calendar id="fechaEntrega" placeholder="#{msg['phFechaEntrega']}" mindate="4-JUN-14" maxdate="7-JUL-14" pattern="dd-MMM-yy" required="true"/>
+                        
+                        </p:panelGrid>
+
+                        <div align="right" id="buttonWf">
+                        <p:commandButton id="btnCreateAceptar"  icon="fa fa-arrow-circle-right" value="Siguiente"/>
+                                <p:commandButton id="btnCreateCancelar" icon="icon-cancel" title="Cancelar" value="Cancelar"/>        
+                        </div>
+                    </h:form>
                 </div>
             </ui:define>
         </ui:composition>

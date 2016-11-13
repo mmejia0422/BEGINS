@@ -24,14 +24,14 @@
 
                 <p:growl id="growl" showDetail="true" life="3000" />
                 <h:form id="formLogin">                    
-                    <p:panel id="basic" header="Super Bakery" style="margin-bottom:20px">
+                    <p:panel id="basic" header="Super Bakery" style="margin: 0 auto">
                         <h:panelGrid columns="2" cellpadding="5">
                             <h:outputLabel for="username" value="#{msg['usuario']}"/>
-                            <p:inputText id="username" value="#{loginBean.usuario.usuario}" required="true" label="username">      
+                            <p:inputText id="username" placeholder="#{msg['phDigiteUsuario']}" value="#{loginBean.usuario.usuario}" required="true" label="username">      
                             </p:inputText>
 
                             <h:outputLabel for="password" value="#{msg['contrasena']}"/>
-                            <p:password id="password" value="#{loginBean.usuario.contrasena}" required="true" label="password" />
+                            <p:password id="password" placeholder="#{msg['phDigitePass']}" value="#{loginBean.usuario.contrasena}" required="true" label="password" />
 
                             <f:facet name="footer">
                                 <table>
