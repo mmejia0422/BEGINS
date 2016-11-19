@@ -18,38 +18,85 @@
 
             <ui:define name="content">
                 <div class="container">
-                    
+
                     <h2>#{msg['hCrearPedido']}</h2>
                     <p:separator/>
                     <br/>
                     <h:form>
-                        <p:steps activeIndex="1" styleClass="custom" readonly="false">
+                        <!--<p:steps activeIndex="1" styleClass="custom" readonly="false">
                         <p:menuitem value="Datos generales"/>
                         <p:menuitem value="Detalle de orden" />
                         <p:menuitem value="Selección de prioridad" />
                         <p:menuitem value="Revisión" />
-                    </p:steps>
-                        </h:form>
-                    <br/>
-                    <h:form id="fDatos">
-                        <p:panelGrid columns="2" style="margin: 0 auto" class="companyHeaderGrid">
-                            <p:outputLabel for="nombre" value="#{msg['lbNombreCliente']}" />
-                            <p:inputText id="nombre" size="55" placeholder="#{msg['phNombre']}" required="true"/>
+                    </p:steps>-->
+                        <p:growl id="growl" sticky="true" showDetail="true"/>
+                        <p:wizard flowListener="#{cPedidoWizard.onFlowProcess}">
+                            <p:tab id="general" title="Datos generales">
+                                <p:panel header="Información de pedido">
+                                    <p:messages />
+                                    <p:panelGrid columns="2" style="margin: 0 auto" class="companyHeaderGrid">
+                                        <p:outputLabel for="nombre" value="#{msg['lbNombreCliente']}" />
+                                        <p:inputText id="nombre" size="55" placeholder="#{msg['phNombre']}" required="true"/>
 
-                            <p:outputLabel for="fechaPedido" value="#{msg['lbFechaPedido']}" />
-                            <p:inputText id="fechaPedido" value="#{currentDate}" disabled="true" required="true">
-                                <f:convertDateTime pattern="dd-MMM-yy hh:mm aa"/>
-                            </p:inputText>
-                            
-                            <p:outputLabel for="fechaEntrega" value="#{msg['lbFechaEntrega']}" />
-                            <p:calendar id="fechaEntrega" placeholder="#{msg['phFechaEntrega']}" mindate="4-JUN-14" maxdate="7-JUL-14" pattern="dd-MMM-yy" required="true"/>
-                        
-                        </p:panelGrid>
+                                        <p:outputLabel for="fechaPedido" value="#{msg['lbFechaPedido']}" />
+                                        <p:inputText id="fechaPedido" value="#{currentDate}" disabled="true" required="true">
+                                            <f:convertDateTime pattern="dd-MMM-yy hh:mm aa"/>
+                                        </p:inputText>
 
-                        <div align="right" id="buttonWf">
-                        <p:commandButton id="btnCreateAceptar"  icon="fa fa-arrow-circle-right" value="Siguiente"/>
-                                <p:commandButton id="btnCreateCancelar" icon="icon-cancel" title="Cancelar" value="Cancelar"/>        
-                        </div>
+                                        <p:outputLabel for="fechaEntrega" value="#{msg['lbFechaEntrega']}" />
+                                        <p:calendar id="fechaEntrega" placeholder="#{msg['phFechaEntrega']}" mindate="4-JUN-14" maxdate="7-JUL-14" pattern="dd-MMM-yy" required="true"/>
+
+                                    </p:panelGrid>
+                                </p:panel>
+                            </p:tab>
+                            <p:tab id="detalle" title="Detalle">
+                                <p:panel header="Lineas del pedido">
+                                    <p:messages />
+                                    <p:panelGrid columns="2" style="margin: 0 auto" class="companyHeaderGrid">
+                                        <p:outputLabel for="producto" value="Producto" />
+                                        <p:inputText id="producto" size="55" value="" placeholder="Digite el producto" required="true"/>
+
+                                        <p:outputLabel for="cantidad" value="Cantidad"/>
+                                        <p:inputNumber id="cantidad" value="" decimalPlaces="0" placeholder="Digite la cantidad deseada" required="true"/>
+
+                                        <p:outputLabel for="prioridad" value="Prioridad"/>
+                                        <p:selectOneRadio required="true" id="prioridad" value="">
+                                            <f:selectItem itemLabel="Normal" itemValue="0"/>
+                                            <f:selectItem itemLabel="Alta" itemValue="1"/>
+                                        </p:selectOneRadio>
+
+                                        <p:outputLabel for="comm" value="Comentarios" />
+                                        <p:inputTextarea id="comm" placeholder="Escriba comentarios adicionales" rows="5" cols="30" counter="display" maxlength="150" counterTemplate="{0} characters remaining." autoResize="true" />
+                                        
+                                        <h:outputText id="dumy" rendered="true" value=""/>
+                                        <h:outputText id="display"/>
+                                    </p:panelGrid>
+                                </p:panel>
+                                <br/>
+                                <p:dataTable resizableColumns="true" rendered="true" editable="true" scrollable="true" 
+                                             var="pedido" value="">
+                                    <p:column headerText="Producto">
+                                        <h:outputText value=""/>
+                                    </p:column>
+
+                                    <p:column headerText="Cantidad">
+                                        <h:outputText value="" />
+                                    </p:column>
+
+                                    <p:column headerText="Prioridad">
+                                        <h:outputText value="" />
+                                    </p:column>
+
+                                    <p:column headerText="Precio">
+                                        <h:outputText value="" />
+                                    </p:column>
+
+                                    <p:column headerText="Comentarios">
+                                        <h:outputText value="" />
+                                    </p:column>
+                                </p:dataTable>
+                            </p:tab>
+                        </p:wizard>
                     </h:form>
                 </div>
             </ui:define>
