@@ -17,17 +17,14 @@
   <table-filter match-name="proveedor"/>
   <table-filter match-name="bodega"/>
   <table-filter match-name="det_factura"/>
-  <table-filter match-name="deta_combustible"/>
   <table-filter match-name="pago"/>
   <table-filter match-name="rol"/>
   <table-filter match-name="producto_proveedor"/>
-  <table-filter match-name="combustible"/>
   <table-filter match-name="presentacion"/>
   <table-filter match-name="seccion"/>
   <table-filter match-name="orden_venta"/>
   <table-filter match-name="cat_producto"/>
   <table-filter match-name="deta_ajuste_inventario"/>
-  <table-filter match-name="bomba"/>
   <table-filter match-name="producto"/>
   <table-filter match-name="factura"/>
   <table-filter match-name="cierre_caja"/>

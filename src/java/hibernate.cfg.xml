@@ -21,14 +21,13 @@
     <mapping resource="model/Municipio.hbm.xml"/>
     <mapping resource="model/Presentacion.hbm.xml"/>
     <mapping resource="model/DetFactura.hbm.xml"/>
-    <mapping resource="model/Bomba.hbm.xml"/>
     <mapping resource="model/Menu.hbm.xml"/>
     <mapping resource="model/Departamento.hbm.xml"/>
     <mapping resource="model/OrdenCompra.hbm.xml"/>
     <mapping resource="model/Empleado.hbm.xml"/>
     <mapping resource="model/Area.hbm.xml"/>
-    <mapping resource="model/Combustible.hbm.xml"/>
     <mapping resource="model/Pais.hbm.xml"/>
+    <mapping resource="model/EstadoDocumentos.hbm.xml"/>
     <mapping resource="model/Compra.hbm.xml"/>
     <mapping resource="model/TipoFactura.hbm.xml"/>
     <mapping resource="model/Bodega.hbm.xml"/>
@@ -42,7 +41,6 @@
     <mapping resource="model/Proveedor.hbm.xml"/>
     <mapping resource="model/CierreCaja.hbm.xml"/>
     <mapping resource="model/DetaOrdenVenta.hbm.xml"/>
-    <mapping resource="model/DetaCombustible.hbm.xml"/>
     <mapping resource="model/DetaAjusteInventario.hbm.xml"/>
     <mapping resource="model/Submenu.hbm.xml"/>
     <mapping resource="model/Icono.hbm.xml"/>

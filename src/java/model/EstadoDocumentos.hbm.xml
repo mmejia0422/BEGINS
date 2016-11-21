@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 11-20-2016 09:32:29 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="model.EstadoDocumentos" table="estado_documentos" catalog="gasisw_bd1" optimistic-lock="version">
+        <id name="idestadoDocumentos" type="java.lang.Integer">
+            <column name="idestado_documentos" />
+            <generator class="identity" />
+        </id>
+        <property name="estado" type="string">
+            <column name="estado" length="45" not-null="true" />
+        </property>
+        <property name="descripcion" type="string">
+            <column name="descripcion" length="100" not-null="true" />
+        </property>
+        <property name="documento" type="string">
+            <column name="documento" length="60" not-null="true" />
+        </property>
+        <set name="ordenVentas" table="orden_venta" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="fk_estado_doc" not-null="true" />
+            </key>
+            <one-to-many class="model.OrdenVenta" />
+        </set>
+    </class>
+</hibernate-mapping>

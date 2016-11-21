@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 11-18-2015 05:01:00 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated 11-20-2016 09:32:29 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="model.DetaOrdenVenta" table="deta_orden_venta" catalog="gasisw_bd1" optimistic-lock="version">
         <id name="idOrdenVenta" type="java.lang.Integer">
@@ -14,11 +14,17 @@
         <many-to-one name="ordenVenta" class="model.OrdenVenta" fetch="select">
             <column name="orden_venta_id_orden_venta" not-null="true" />
         </many-to-one>
-        <property name="precio" type="java.lang.Byte">
-            <column name="precio" precision="2" scale="0" />
+        <property name="precio" type="byte">
+            <column name="precio" precision="2" scale="0" not-null="true" />
         </property>
-        <property name="cantidad" type="java.lang.Integer">
-            <column name="cantidad" />
+        <property name="cantidad" type="int">
+            <column name="cantidad" not-null="true" />
+        </property>
+        <property name="precioLista" type="byte">
+            <column name="precio_lista" precision="2" scale="0" not-null="true" />
+        </property>
+        <property name="comentarios" type="string">
+            <column name="comentarios" length="150" not-null="true" />
         </property>
     </class>
 </hibernate-mapping>
