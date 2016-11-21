@@ -46,6 +46,17 @@
                                         <p:outputLabel for="fechaEntrega" value="#{msg['lbFechaEntrega']}" />
                                         <p:calendar id="fechaEntrega" placeholder="#{msg['phFechaEntrega']}" mindate="4-JUN-14" maxdate="7-JUL-14" pattern="dd-MMM-yy" required="true"/>
 
+                                        <p:outputLabel for="prioridad" value="Prioridad"/>
+                                        <p:selectOneRadio required="true" id="prioridad">
+                                            <f:selectItem itemLabel="Normal" itemValue="N"/>
+                                            <f:selectItem itemLabel="Alta" itemValue="Y"/>
+                                        </p:selectOneRadio>
+                                        
+                                        <p:outputLabel for="desc" value="Descripcion" />
+                                        <p:inputTextarea id="desc" placeholder="Descripcion" rows="5" cols="30" counter="mostrar" maxlength="150" counterTemplate="{0} characters remaining." autoResize="true" />
+                                        
+                                        <h:outputText id="dummy" rendered="true" value=""/>
+                                        <h:outputText id="mostrar"/>
                                     </p:panelGrid>
                                 </p:panel>
                             </p:tab>
@@ -58,12 +69,6 @@
 
                                         <p:outputLabel for="cantidad" value="Cantidad"/>
                                         <p:inputNumber id="cantidad" value="" decimalPlaces="0" placeholder="Digite la cantidad deseada" required="true"/>
-
-                                        <p:outputLabel for="prioridad" value="Prioridad"/>
-                                        <p:selectOneRadio required="true" id="prioridad" value="">
-                                            <f:selectItem itemLabel="Normal" itemValue="0"/>
-                                            <f:selectItem itemLabel="Alta" itemValue="1"/>
-                                        </p:selectOneRadio>
 
                                         <p:outputLabel for="comm" value="Comentarios" />
                                         <p:inputTextarea id="comm" placeholder="Escriba comentarios adicionales" rows="5" cols="30" counter="display" maxlength="150" counterTemplate="{0} characters remaining." autoResize="true" />
