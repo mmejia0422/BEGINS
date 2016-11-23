@@ -18,6 +18,8 @@ public class DetaOrdenVenta  implements java.io.Serializable {
      private String comentarios;
 
     public DetaOrdenVenta() {
+        this.catProducto = new CatProducto();
+        this.ordenVenta = new OrdenVenta();
     }
 
     public DetaOrdenVenta(CatProducto catProducto, OrdenVenta ordenVenta, byte precio, int cantidad, byte precioLista, String comentarios) {

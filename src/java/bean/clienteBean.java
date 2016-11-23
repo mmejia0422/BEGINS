@@ -15,6 +15,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 import model.Cliente;
 
 /**
@@ -27,6 +28,7 @@ public class clienteBean {
 
     private List<Cliente> clientes;
     private Cliente selectedCliente;
+    private List<SelectItem> selectItemCliente;
     
     /**
      * Creates a new instance of clienteBean
@@ -103,5 +105,16 @@ public class clienteBean {
             FacesContext.getCurrentInstance().addMessage(null, message);
         }
 
+    }
+
+    public List<SelectItem> getSelectItemCliente() {
+        this.selectItemCliente = new ArrayList<SelectItem>();
+        ClienteDao cliente = new ClienteDaoImpl();
+        List<Cliente> listado = cliente.selectItems();
+        for (Cliente c : listado) {
+            SelectItem selectItem = new SelectItem(c.getIdCliente(), c.getNombre() + ' ' + c.getApellido());
+            this.selectItemCliente.add(selectItem);
+        }
+        return selectItemCliente;
     }
 }

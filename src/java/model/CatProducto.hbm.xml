@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 11-18-2015 05:01:00 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated 11-22-2016 07:47:24 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="model.CatProducto" table="cat_producto" catalog="gasisw_bd1" optimistic-lock="version">
         <id name="idCatProducto" type="java.lang.Integer">
@@ -17,11 +17,14 @@
         <many-to-one name="presentacion" class="model.Presentacion" fetch="select">
             <column name="presentacion_id_presentacion" not-null="true" />
         </many-to-one>
+        <many-to-one name="tipoCategoria" class="model.TipoCategoria" fetch="select">
+            <column name="fk_tipo_categoria" not-null="true" />
+        </many-to-one>
         <property name="nombre" type="string">
             <column name="nombre" length="45" />
         </property>
         <property name="descripcion" type="string">
-            <column name="descripcion" length="45" />
+            <column name="descripcion" length="250" />
         </property>
         <property name="precio" type="java.lang.Byte">
             <column name="precio" precision="2" scale="0" />

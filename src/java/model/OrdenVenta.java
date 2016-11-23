@@ -24,6 +24,9 @@ public class OrdenVenta  implements java.io.Serializable {
      private Set detaOrdenVentas = new HashSet(0);
 
     public OrdenVenta() {
+        this.empleado = new Empleado();
+        this.cliente = new Cliente();
+        this.estadoDocumentos = new EstadoDocumentos();
     }
 
 	

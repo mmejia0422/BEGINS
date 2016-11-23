@@ -96,5 +96,21 @@ public class ClienteDaoImpl implements ClienteDao{
         }
     return flag;
     }
+
+    @Override
+    public List<Cliente> selectItems() {
+        List<Cliente> listado = null;
+        Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = sesion.beginTransaction();
+        String sql = "from Cliente";
+        try{
+            listado = sesion.createQuery(sql).list();
+            tx.commit();
+        } catch(Exception e) {
+            e.printStackTrace();
+            tx.rollback();
+        }
+        return listado;
+    }
     
 }

@@ -6,16 +6,12 @@
 package dao;
 
 import java.util.List;
-import model.Cliente;
+import model.CatProducto;
 
 /**
  *
  * @author Mario
  */
-public interface ClienteDao {
-    public List<Cliente> findAll();
-    public boolean create(Cliente cliente);
-    public boolean update(Cliente cliente);
-    public boolean delete(Integer id);
-    public List<Cliente> selectItems();
+public interface ProductoDao {
+    public List<CatProducto> selectItems();
 }

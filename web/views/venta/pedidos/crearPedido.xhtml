@@ -35,8 +35,12 @@
                                 <p:panel header="Información de pedido">
                                     <p:messages />
                                     <p:panelGrid columns="2" style="margin: 0 auto" class="companyHeaderGrid">
-                                        <p:outputLabel for="nombre" value="#{msg['lbNombreCliente']}" />
-                                        <p:inputText id="nombre" size="55" placeholder="#{msg['phNombre']}" required="true"/>
+                                        <p:outputLabel for="nombre" value="#{msg['lbNombreCliente']}"/>
+                                        <p:selectOneMenu  id="nombre" required="true" filter="true" filterMatchMode="contains" effect="fold"
+                                                          value="#{crearPedidoBean.selectedCabecera.cliente.idCliente}">
+                                            <f:selectItem itemLabel="Seleccione" itemValue="" />
+                                            <f:selectItems value="#{clienteBean.selectItemCliente}"/>
+                                        </p:selectOneMenu>
 
                                         <p:outputLabel for="fechaPedido" value="#{msg['lbFechaPedido']}" />
                                         <p:inputText id="fechaPedido" value="#{currentDate}" disabled="true" required="true">
@@ -44,17 +48,19 @@
                                         </p:inputText>
 
                                         <p:outputLabel for="fechaEntrega" value="#{msg['lbFechaEntrega']}" />
-                                        <p:calendar id="fechaEntrega" placeholder="#{msg['phFechaEntrega']}" mindate="4-JUN-14" maxdate="7-JUL-14" pattern="dd-MMM-yy" required="true"/>
+                                        <p:calendar id="fechaEntrega" placeholder="#{msg['phFechaEntrega']}" value="#{crearPedidoBean.selectedCabecera.fechaEntrega}"
+                                                    mindate="4-JUN-14" maxdate="7-JUL-14" pattern="dd-MMM-yy" required="true"/>
 
                                         <p:outputLabel for="prioridad" value="Prioridad"/>
-                                        <p:selectOneRadio required="true" id="prioridad">
+                                        <p:selectOneRadio required="true" id="prioridad" value="#{crearPedidoBean.selectedCabecera.prioridadAlta}">
                                             <f:selectItem itemLabel="Normal" itemValue="N"/>
                                             <f:selectItem itemLabel="Alta" itemValue="Y"/>
                                         </p:selectOneRadio>
-                                        
+
                                         <p:outputLabel for="desc" value="Descripcion" />
-                                        <p:inputTextarea id="desc" placeholder="Descripcion" rows="5" cols="30" counter="mostrar" maxlength="150" counterTemplate="{0} characters remaining." autoResize="true" />
-                                        
+                                        <p:inputTextarea id="desc" placeholder="Descripcion" rows="5" cols="30" counter="mostrar" value="#{crearPedidoBean.selectedCabecera.descripcion}"
+                                                         maxlength="150" counterTemplate="{0} characters remaining." autoResize="true" />
+
                                         <h:outputText id="dummy" rendered="true" value=""/>
                                         <h:outputText id="mostrar"/>
                                     </p:panelGrid>
@@ -65,14 +71,29 @@
                                     <p:messages />
                                     <p:panelGrid columns="2" style="margin: 0 auto" class="companyHeaderGrid">
                                         <p:outputLabel for="producto" value="Producto" />
-                                        <p:inputText id="producto" size="55" value="" placeholder="Digite el producto" required="true"/>
+                                        <p:selectOneMenu  id="producto" required="true" valueChangeListener="#{crearPedidoBean.productoCambiaValor}"
+                                                          value="#{crearPedidoBean.selectedPedido.catProducto.idCatProducto}">
+                                            <f:selectItem itemLabel="Seleccione" itemValue="" />
+                                            <f:selectItems value="#{productoBean.selectItemProducto}"/>
+                                            <f:ajax event="change" execute="@this" render="change"/>
+                                        </p:selectOneMenu>
 
                                         <p:outputLabel for="cantidad" value="Cantidad"/>
-                                        <p:inputNumber id="cantidad" value="" decimalPlaces="0" placeholder="Digite la cantidad deseada" required="true"/>
+                                        <p:inputNumber id="cantidad" value="#{crearPedidoBean.selectedPedido.cantidad}" minValue="1" decimalPlaces="0" placeholder="Digite la cantidad" required="true"/>
 
-                                        <p:outputLabel for="comm" value="Comentarios" />
-                                        <p:inputTextarea id="comm" placeholder="Escriba comentarios adicionales" rows="5" cols="30" counter="display" maxlength="150" counterTemplate="{0} characters remaining." autoResize="true" />
+                                        <p:outputLabel for="precio" value="Precio"/>
+                                        <p:inputNumber id="precio" decimalSeparator="." thousandSeparator="," 
+                                                       value="#{crearPedidoBean.selectedPedido.precio}" minValue="0" decimalPlaces="2" 
+                                                       placeholder="Precio de venta" required="true"
+                                                       symbol="$"/>
                                         
+                                        <h:outputText id="dumy1" rendered="true" value=""/>
+                                        <h:outputText id="change" value="#"/>
+
+                                        
+                                        <p:outputLabel for="comm" value="Comentarios" />
+                                        <p:inputTextarea id="comm" value="#{crearPedidoBean.selectedPedido.comentarios}" placeholder="Escriba comentarios adicionales" rows="5" cols="30" counter="display" maxlength="150" counterTemplate="{0} characters remaining." autoResize="true" />
+
                                         <h:outputText id="dumy" rendered="true" value=""/>
                                         <h:outputText id="display"/>
                                     </p:panelGrid>

@@ -15,6 +15,7 @@
   <table-filter match-name="categoria"/>
   <table-filter match-name="deta_orden_venta"/>
   <table-filter match-name="proveedor"/>
+  <table-filter match-name="tipo_categoria"/>
   <table-filter match-name="bodega"/>
   <table-filter match-name="det_factura"/>
   <table-filter match-name="pago"/>
