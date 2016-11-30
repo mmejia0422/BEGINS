@@ -55,13 +55,14 @@ public class menuBean implements Serializable {
     private Integer RespSesion;
     private Usuario usuario;
     private UsuarioDao usuarioDao;
-    private List<Menu> listaMenus;
-    private Menu selectedMenu;
+    //private List<Menu> listaMenus;
+    private List<RolMenu> listaMenus;
+    private RolMenu selectedMenu;
 
     public menuBean() {
         this.usuarioDao = new UsuarioDaoImpl();
         this.usuario = new Usuario();
-        this.selectedMenu = new Menu();
+        this.selectedMenu = new RolMenu();
     }
 
     @PostConstruct
@@ -141,7 +142,7 @@ public class menuBean implements Serializable {
         this.usuario = usuario;
     }
 
-    public List<Menu> getListaMenus() {
+    /*public List<Menu> getListaMenus() {
         MenuDao menuDao = new MenuDaoImpl();
         listaMenus = menuDao.findAll();
         return listaMenus;
@@ -149,14 +150,24 @@ public class menuBean implements Serializable {
 
     public void setListaMenus(List<Menu> listaMenus) {
         this.listaMenus = listaMenus;
+    }*/
+    
+    public List<RolMenu> getListaMenus() {
+        RolMenuDao rmDao = new RolMenuDaoImpl();
+        listaMenus = rmDao.findAll();
+        return listaMenus;
+    }
+
+    public void setListaMenus(List<RolMenu> listaMenus) {
+        this.listaMenus = listaMenus;
     }
 
     //the following code is to give maintenance to menus
     public void btnCreate(ActionEvent actionEvent) {
-        MenuDao menuDao = new MenuDaoImpl();
+        RolMenuDao rmDao = new RolMenuDaoImpl();
         String msg;
 
-        if (menuDao.create(this.selectedMenu)) {
+        if (rmDao.create(this.selectedMenu)) {
             msg = "Se guardo correctamente el registro";
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, msg, null);
             FacesContext.getCurrentInstance().addMessage(null, message);
@@ -169,15 +180,15 @@ public class menuBean implements Serializable {
     }
 
     public void btnUpdate(ActionEvent actionEvent) {
-        MenuDao menuDao = new MenuDaoImpl();
+        RolMenuDao rmDao = new RolMenuDaoImpl();
         String msg;
 
-        if (menuDao.update(this.selectedMenu)) {
+        if (rmDao.update(this.selectedMenu)) {
             msg = "Se guardo correctamente el registro";
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, msg, null);
             FacesContext.getCurrentInstance().addMessage(null, message);
         } else {
-            msg = "Error al crear el registro";
+            msg = "Error al actualizar el registro";
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, null);
             FacesContext.getCurrentInstance().addMessage(null, message);
         }
@@ -185,9 +196,9 @@ public class menuBean implements Serializable {
     }
 
     public void btnDelete(ActionEvent actionEvent) {
-        MenuDao menuDao = new MenuDaoImpl();
+        RolMenuDao rmDao = new RolMenuDaoImpl();
         String msg;
-        if (menuDao.delete(this.selectedMenu.getIdmenu())) {
+        if (rmDao.delete(this.selectedMenu.getMenu().getIdmenu())) {
             msg = "Se elimino correctamente el registro";
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, msg, null);
             FacesContext.getCurrentInstance().addMessage(null, message);
@@ -202,11 +213,11 @@ public class menuBean implements Serializable {
     //Here ends the code for maintenance
 
 
-    public Menu getSelectedMenu() {
+    public RolMenu getSelectedMenu() {
         return selectedMenu;
     }
 
-    public void setSelectedMenu(Menu selectedMenu) {
+    public void setSelectedMenu(RolMenu selectedMenu) {
         this.selectedMenu = selectedMenu;
     }
 

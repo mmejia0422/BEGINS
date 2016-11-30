@@ -27,6 +27,9 @@ public class RolMenu  implements java.io.Serializable {
      private Rol rol;
 
     public RolMenu() {
+        this.menu = new Menu();
+        this.rol = new Rol();
+        
     }
 
     public RolMenu(Menu menu, Rol rol) {

@@ -13,7 +13,7 @@
             <ui:define name="content">
                 <p:growl id="msgs" showDetail="true" />
                 <h:form id="formMng">
-                    <h:inputHidden value="#{menuBean.selectedMenu.idmenu}"/>
+                    <h:inputHidden value="#{menuBean.selectedMenu.menu.idmenu}"/>
 
                     <p:panelGrid id="grid" columns="3" style="margin: 0 auto;" columnClasses="label,value" styleClass="companyHeaderGrid">
                         <p:commandButton id="btnCrearSm" update=":formManage" oncomplete="PF('dialogAddSb').show()" icon="icon-new" title="#{msg['btnCrear']}"/>

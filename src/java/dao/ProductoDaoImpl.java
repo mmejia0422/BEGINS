@@ -32,5 +32,22 @@ public class ProductoDaoImpl implements ProductoDao {
         }
         return listado;
     }
+
+    @Override
+    public List<CatProducto> obtenerProdSeleccionado(Integer id) {
+        
+        List<CatProducto> listado = null;
+        Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = sesion.beginTransaction();
+        String sql = "from CatProducto where idCatProducto = " + id;
+        try{
+            listado = sesion.createQuery(sql).list();
+            tx.commit();
+        } catch(Exception e) {
+            e.printStackTrace();
+            tx.rollback();
+        }
+        return listado;
+    }
     
 }

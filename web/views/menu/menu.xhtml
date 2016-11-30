@@ -29,29 +29,33 @@
                             Listado de menus
                         </f:facet>
 
-                        <p:column headerText="Menu" filterBy="#{menu.nombre}" filterMatchMode="contains">
-                            <h:outputText value="#{menu.nombre}" />
+                        <p:column headerText="Menu" filterBy="#{menu.menu.nombre}" filterMatchMode="contains">
+                            <h:outputText value="#{menu.menu.nombre}" />
+                        </p:column>
+                        
+                        <p:column headerText="Responsabilidad" filterBy="#{menu.rol.descripcion}" filterMatchMode="contains">
+                            <h:outputText value="#{menu.rol.descripcion}" />
                         </p:column>
 
-                        <p:column headerText="Estado" filterMatchMode="contains" filterBy="#{menu.estado}">
-                            <h:outputText value="#{menu.estado}"/>
+                        <p:column headerText="Estado" filterMatchMode="contains" filterBy="#{menu.menu.estado}">
+                            <h:outputText value="#{menu.menu.estado}"/>
                         </p:column>
 
-                        <p:column headerText="Url" filterMatchMode="contains" filterBy="#{menu.url}">
-                            <h:outputText value="#{menu.url}"/>
+                        <p:column headerText="Url" filterMatchMode="contains" filterBy="#{menu.menu.url}">
+                            <h:outputText value="#{menu.menu.url}"/>
                         </p:column>
 
-                        <p:column headerText="Icono" filterMatchMode="contains" filterBy="#{menu.icono}">
-                            <h:outputText value="#{menu.icono.referencia}"/>
+                        <p:column headerText="Icono" filterMatchMode="contains" filterBy="#{menu.menu.icono.referencia}">
+                            <h:outputText value="#{menu.menu.icono.referencia}"/>
                         </p:column>
 
-                        <p:column headerText="Orden" resizable="true" filterMatchMode="contains" filterBy="#{menu.orden}">
-                            <h:outputText value="#{menu.orden}"/>
+                        <p:column headerText="Orden" resizable="true" filterMatchMode="contains" filterBy="#{menu.menu.orden}">
+                            <h:outputText value="#{menu.menu.orden}"/>
                         </p:column>
 
                         <p:column headerText="Accion" style="text-align: center">
                             <p:commandButton id="btnManage" 
-                                             action="#{autoCompleteBean.llenarPicklist(menuBean.selectedMenu.idmenu)}" icon="icon-tools" 
+                                             action="#{autoCompleteBean.llenarPicklist(menuBean.selectedMenu.menu.idmenu)}" icon="icon-tools" 
                                              title="Administrar">
                                 <f:setPropertyActionListener value="#{menu}" target="#{menuBean.selectedMenu}"/>
                                 <f:actionListener binding="#{autoCompleteBean.llenarDataTable()}"/>
@@ -68,32 +72,36 @@
 
                 <h:form id="formCreate">
                     <p:dialog header="Crear menu" id="dlgMenuCreate" responsive="true" widgetVar="dialogMenuCreate" modal="true" showEffect="fade" hideEffect="explode" resizable="true">
-                        <p:panelGrid  columns="2" style="margin: 0 auto;" columnClasses="label,value">
+                        <p:panelGrid  columns="2" style="margin: 0 auto;" columnClasses="label,value" class="companyHeaderGrid">
 
                             <h:outputText value="Nombre menu"/>
-                            <p:inputText required="true" value="#{menuBean.selectedMenu.nombre}" >
+                            <p:inputText required="true" value="#{menuBean.selectedMenu.menu.nombre}" >
                                 <f:validateLength minimum="3" maximum="15"/>
                             </p:inputText>
+                            
+                            <h:outputText value="Responsabilidad"/>
+                            <p:selectOneMenu required="true" value="#{menuBean.selectedMenu.rol.idRol}">
+                                <f:selectItem itemLabel="Seleccione" itemValue="" />
+                                <f:selectItems value="#{rolBean.selectOneItemsRol}" />
+                            </p:selectOneMenu>
 
                             <h:outputText value="Estado"/>
-                            <p:selectOneMenu value="#{menuBean.selectedMenu.estado}">
+                            <p:selectOneMenu value="#{menuBean.selectedMenu.menu.estado}">
                                 <f:selectItem itemLabel="Activo" itemValue="Y" />
                                 <f:selectItem itemLabel="Inactivo" itemValue="N" />
                             </p:selectOneMenu>
 
                             <h:outputText value="Url"/>
-                            <p:inputText required="true" value="#{menuBean.selectedMenu.url}"/>
+                            <p:inputText required="true" value="#{menuBean.selectedMenu.menu.url}"/>
 
                             <h:outputText value="Icono"/>
-                            <p:selectOneMenu required="true" value="#{menuBean.selectedMenu.icono.idicono}">
+                            <p:selectOneMenu required="true" value="#{menuBean.selectedMenu.menu.icono.idicono}">
                                 <f:selectItem itemLabel="Seleccione" itemValue="" />
-                                <f:selectItems value="#{iconoBean.selectOneItemsIco}" />
+                                <f:selectItems value="#{iconoBean.selectOneItemsIco}"/>
                             </p:selectOneMenu>
 
                             <h:outputText value="Orden"/>
-                            <p:inputText required="true" value="#{menuBean.selectedMenu.orden}">
-                                <f:validateLongRange minimum="1" maximum="15"/>
-                            </p:inputText>
+                            <p:inputNumber value="#{menuBean.selectedMenu.menu.orden}" minValue="0" maxValue="15" decimalPlaces="0" placeholder="Orden de menu"/>
 
                             <f:facet name="footer">
                                 <p:commandButton id="btnCreateAceptar" oncomplete="PF('dialogMenuCreate').hide()" actionListener="#{menuBean.btnCreate(actionEvent)}" update=":formId, :msgs" icon="icon-save" title="Guardar" value="Guardar"/>
@@ -105,31 +113,37 @@
 
                 <h:form id="formUpdate">
                     <p:dialog header="Modificar menu" responsive="true" id="dlgMenuUpdate" widgetVar="dialogMenuUpdate" modal="true" showEffect="fade" hideEffect="explode" resizable="false">
-                        <h:inputHidden value="#{menuBean.selectedMenu.idmenu}" />
-                        <p:panelGrid  columns="2" style="margin: 0 auto;" columnClasses="label,value">
+                        <h:inputHidden value="#{menuBean.selectedMenu.menu.idmenu}" />
+                        <p:panelGrid  columns="2" style="margin: 0 auto;" columnClasses="label,value" class="companyHeaderGrid">
 
                             <h:outputText value="Nombre menu"/>
-                            <p:inputText required="true" value="#{menuBean.selectedMenu.nombre}" >
+                            <p:inputText required="true" value="#{menuBean.selectedMenu.menu.nombre}" >
                                 <f:validateLength minimum="3" maximum="15"/>
                             </p:inputText>
+                            
+                            <h:outputText value="Responsabilidad"/>
+                            <p:selectOneMenu required="true" value="#{menuBean.selectedMenu.rol.idRol}">
+                                <f:selectItem itemLabel="Seleccione" itemValue="" />
+                                <f:selectItems value="#{rolBean.selectOneItemsRol}" />
+                            </p:selectOneMenu>
 
                             <h:outputText value="Estado"/>
-                            <p:selectOneMenu value="#{menuBean.selectedMenu.estado}">
+                            <p:selectOneMenu value="#{menuBean.selectedMenu.menu.estado}">
                                 <f:selectItem itemLabel="Activo" itemValue="Y" />
                                 <f:selectItem itemLabel="Inactivo" itemValue="N" />
                             </p:selectOneMenu>
 
                             <h:outputText value="Url"/>
-                            <p:inputText required="true" value="#{menuBean.selectedMenu.url}"/>
+                            <p:inputText required="true" value="#{menuBean.selectedMenu.menu.url}"/>
 
                             <h:outputText value="Icono"/>
-                            <p:selectOneMenu required="true" value="#{menuBean.selectedMenu.icono.idicono}">
+                            <p:selectOneMenu required="true" value="#{menuBean.selectedMenu.menu.icono.idicono}">
                                 <f:selectItem itemLabel="Seleccione" itemValue="" />
                                 <f:selectItems value="#{iconoBean.selectOneItemsIco}" />
                             </p:selectOneMenu>
 
                             <h:outputText value="Orden"/>
-                            <p:inputText required="true" value="#{menuBean.selectedMenu.orden}">
+                            <p:inputText required="true" value="#{menuBean.selectedMenu.menu.orden}">
                                 <f:validateLongRange minimum="1" maximum="15"/>
                             </p:inputText>
 
@@ -144,15 +158,15 @@
                 <h:form id="formDelete">
                     <p:confirmDialog id="confirmDialog" widgetVar="dialogMenuDelete" severity="alert" message="¿Esta seguro de eliminar?"
                                      showEffect="fade" hideEffect="explode" header="Eliminar menu">
-                        <h:inputHidden value="#{menuBean.selectedMenu.idmenu}" />
+                        <h:inputHidden value="#{menuBean.selectedMenu.menu.idmenu}" />
                         <p:commandButton actionListener="#{menuBean.btnDelete(actionEvent)}" id="confirm" update=":formId, :msgs" oncomplete="PF('dialogMenuDelete').hide()" icon="icon-check" value="Si"/>
                         <p:commandButton id="decline" value="No" oncomplete="PF('dialogMenuDelete').hide()" icon="icon-cancel" />
                     </p:confirmDialog>
                 </h:form>
 
                 <h:form id="formManage">
-                    <p:dialog header="Administrar menu #{menuBean.selectedMenu.nombre}" responsive="true" id="dlgMenuMg" widgetVar="dialogManage" modal="true" showEffect="fade" hideEffect="explode" resizable="true">
-                        <h:inputHidden value="#{menuBean.selectedMenu.idmenu}"/>
+                    <p:dialog header="Administrar menu #{menuBean.selectedMenu.menu.nombre}" responsive="true" id="dlgMenuMg" widgetVar="dialogManage" modal="true" showEffect="fade" hideEffect="explode" resizable="true">
+                        <h:inputHidden value="#{menuBean.selectedMenu.menu.idmenu}"/>
 
                         <p:panelGrid id="grid" columns="3" style="margin: 0 auto;" columnClasses="label,value" styleClass="companyHeaderGrid">
                             <p:commandButton id="btnCrearSm" icon="icon-new" title="Crear" type="button">

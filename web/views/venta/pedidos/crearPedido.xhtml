@@ -31,14 +31,14 @@
                     </p:steps>-->
                         <p:growl id="growl" sticky="true" showDetail="true"/>
                         <p:wizard flowListener="#{cPedidoWizard.onFlowProcess}">
-                            <p:tab id="general" title="Datos generales">
-                                <p:panel header="Información de pedido">
+                            <p:tab id="general" title="#{msg['wizGeneralInfo']}">
+                                <p:panel header="#{msg['hdInformacionPedido']}">
                                     <p:messages />
                                     <p:panelGrid columns="2" style="margin: 0 auto" class="companyHeaderGrid">
                                         <p:outputLabel for="nombre" value="#{msg['lbNombreCliente']}"/>
                                         <p:selectOneMenu  id="nombre" required="true" filter="true" filterMatchMode="contains" effect="fold"
                                                           value="#{crearPedidoBean.selectedCabecera.cliente.idCliente}">
-                                            <f:selectItem itemLabel="Seleccione" itemValue="" />
+                                            <f:selectItem itemLabel="#{msg['seleccione']}" itemValue="" />
                                             <f:selectItems value="#{clienteBean.selectItemCliente}"/>
                                         </p:selectOneMenu>
 
@@ -49,25 +49,25 @@
 
                                         <p:outputLabel for="fechaEntrega" value="#{msg['lbFechaEntrega']}" />
                                         <p:calendar id="fechaEntrega" placeholder="#{msg['phFechaEntrega']}" value="#{crearPedidoBean.selectedCabecera.fechaEntrega}"
-                                                    mindate="4-JUN-14" maxdate="7-JUL-14" pattern="dd-MMM-yy" required="true"/>
+                                                    mindate="#{currentDate}" pattern="dd-MMM-yy" required="true"/>
 
-                                        <p:outputLabel for="prioridad" value="Prioridad"/>
+                                        <p:outputLabel for="prioridad" value="#{msg['lbPrioridad']}"/>
                                         <p:selectOneRadio required="true" id="prioridad" value="#{crearPedidoBean.selectedCabecera.prioridadAlta}">
-                                            <f:selectItem itemLabel="Normal" itemValue="N"/>
-                                            <f:selectItem itemLabel="Alta" itemValue="Y"/>
+                                            <f:selectItem itemLabel="#{msg['lbBaja']}" itemValue="N"/>
+                                            <f:selectItem itemLabel="#{msg['lbAlta']}" itemValue="Y"/>
                                         </p:selectOneRadio>
 
-                                        <p:outputLabel for="desc" value="Descripcion" />
-                                        <p:inputTextarea id="desc" placeholder="Descripcion" rows="5" cols="30" counter="mostrar" value="#{crearPedidoBean.selectedCabecera.descripcion}"
-                                                         maxlength="150" counterTemplate="{0} characters remaining." autoResize="true" />
+                                        <p:outputLabel for="desc" value="#{msg['lbDescripcion']}" />
+                                        <p:inputTextarea id="desc" placeholder="#{msg['phDescripcion']}" rows="5" cols="25" counter="mostrar" value="#{crearPedidoBean.selectedCabecera.descripcion}"
+                                                         maxlength="150" counterTemplate="{0} #{msg['lbChrCounter']}" autoResize="true" />
 
                                         <h:outputText id="dummy" rendered="true" value=""/>
                                         <h:outputText id="mostrar"/>
                                     </p:panelGrid>
                                 </p:panel>
                             </p:tab>
-                            <p:tab id="detalle" title="Detalle">
-                                <p:panel header="Lineas del pedido">
+                            <p:tab id="detalle" title="#{msg['wizDetails']}">
+                                <p:panel header="#{msg['hdLineaPedido']}">
                                     <p:messages />
                                     <p:panelGrid columns="2" style="margin: 0 auto" class="companyHeaderGrid">
                                         <p:outputLabel for="producto" value="Producto" />
@@ -75,32 +75,38 @@
                                                           value="#{crearPedidoBean.selectedPedido.catProducto.idCatProducto}">
                                             <f:selectItem itemLabel="Seleccione" itemValue="" />
                                             <f:selectItems value="#{productoBean.selectItemProducto}"/>
-                                            <f:ajax event="change" execute="@this" render="change"/>
+                                            <f:ajax event="change" execute="@form" render="change"/>
                                         </p:selectOneMenu>
 
                                         <p:outputLabel for="cantidad" value="Cantidad"/>
-                                        <p:inputNumber id="cantidad" value="#{crearPedidoBean.selectedPedido.cantidad}" minValue="1" decimalPlaces="0" placeholder="Digite la cantidad" required="true"/>
+                                        <p:inputNumber id="cantidad" value="#{crearPedidoBean.selectedPedido.cantidad}" minValue="0" decimalPlaces="0" placeholder="Digite la cantidad" required="true"/>
 
-                                        <p:outputLabel for="precio" value="Precio"/>
+                                        <p:outputLabel for="precio" value="Precio unitario"/>
                                         <p:inputNumber id="precio" decimalSeparator="." thousandSeparator="," 
                                                        value="#{crearPedidoBean.selectedPedido.precio}" minValue="0" decimalPlaces="2" 
                                                        placeholder="Precio de venta" required="true"
                                                        symbol="$"/>
-                                        
-                                        <h:outputText id="dumy1" rendered="true" value=""/>
-                                        <h:outputText id="change" value="#"/>
 
-                                        
+                                        <h:outputText id="dumy1" rendered="true" value=""/>
+                                        <h:outputText id="change" value="Precio sugerido: "/>
+
+
                                         <p:outputLabel for="comm" value="Comentarios" />
                                         <p:inputTextarea id="comm" value="#{crearPedidoBean.selectedPedido.comentarios}" placeholder="Escriba comentarios adicionales" rows="5" cols="30" counter="display" maxlength="150" counterTemplate="{0} characters remaining." autoResize="true" />
 
                                         <h:outputText id="dumy" rendered="true" value=""/>
                                         <h:outputText id="display"/>
+                                        <br/>
                                     </p:panelGrid>
+                                    <div align="center">
+                                        <p:commandButton id="btnAgregar" value="Agregar" update="" oncomplete=""/>
+                                        <p:commandButton id="btnLimpiar" value="Limpiar campos" update="" oncomplete=""/>
+                                    </div>
                                 </p:panel>
                                 <br/>
+
                                 <p:dataTable resizableColumns="true" rendered="true" editable="true" scrollable="true" 
-                                             var="pedido" value="">
+                                             var="pedido"  value="">
                                     <p:column headerText="Producto">
                                         <h:outputText value=""/>
                                     </p:column>
@@ -109,18 +115,28 @@
                                         <h:outputText value="" />
                                     </p:column>
 
-                                    <p:column headerText="Prioridad">
-                                        <h:outputText value="" />
-                                    </p:column>
-
-                                    <p:column headerText="Precio">
+                                    <p:column headerText="Monto">
                                         <h:outputText value="" />
                                     </p:column>
 
                                     <p:column headerText="Comentarios">
                                         <h:outputText value="" />
                                     </p:column>
+                                    <p:column headerText="Acción" style="width:100px;text-align: center">
+                                        <p:commandButton id="btnDelete" update="" oncomplete="" icon="icon-delete" title="Eliminar">
+                                            <!--Action listener-->
+                                        </p:commandButton>
+                                    </p:column>
                                 </p:dataTable>
+                            </p:tab>
+
+                            <p:tab id="confirmar" title="Revisión">
+                                <p:panel header="Confirmar pedido">
+                                    <p:messages />
+                                    <p:panelGrid columns="2" style="margin: 0 auto" class="companyHeaderGrid">
+
+                                    </p:panelGrid>
+                                </p:panel>
                             </p:tab>
                         </p:wizard>
                     </h:form>

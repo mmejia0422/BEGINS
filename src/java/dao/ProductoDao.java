@@ -14,4 +14,5 @@ import model.CatProducto;
  */
 public interface ProductoDao {
     public List<CatProducto> selectItems();
+    public List<CatProducto> obtenerProdSeleccionado(Integer id);
 }

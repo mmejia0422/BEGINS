@@ -8,7 +8,7 @@ package bean;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import model.DetaOrdenVenta;
@@ -19,7 +19,7 @@ import model.OrdenVenta;
  * @author Mario
  */
 @ManagedBean(name="crearPedidoBean")
-@RequestScoped
+@ViewScoped
 public class crearPedidoBean {
     
     private OrdenVenta selectedCabecera;

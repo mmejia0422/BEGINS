@@ -10,7 +10,7 @@ import dao.ProductoDaoImpl;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.model.SelectItem;
 import model.CatProducto;
 
@@ -19,10 +19,11 @@ import model.CatProducto;
  * @author Mario
  */
 @ManagedBean(name="productoBean")
-@RequestScoped
+@ViewScoped
 public class productoBean {
 
     private List<SelectItem> selectItemProducto;
+    private Double precioLista;
     
     public productoBean() {
     }
@@ -36,6 +37,15 @@ public class productoBean {
             this.selectItemProducto.add(selectItem);
         }
         return selectItemProducto;
+    }
+
+    public Double getPrecioLista(Integer id_producto) {
+        ProductoDao p = new ProductoDaoImpl();
+        List<CatProducto> listado = null;
+        
+        listado = p.obtenerProdSeleccionado(id_producto);
+        this.precioLista = (double)listado.get(0).getPrecio();
+        return precioLista;
     }
 
     

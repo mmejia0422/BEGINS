@@ -14,4 +14,8 @@ import model.RolMenu;
  */
 public interface RolMenuDao {
     public List<RolMenu> findByResp(Integer idResp);
+    public List<RolMenu> findAll();
+    public boolean create(RolMenu rolMenu);
+    public boolean update(RolMenu rolMenu);
+    public boolean delete(Integer id);
 }

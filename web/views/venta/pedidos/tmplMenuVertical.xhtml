@@ -47,7 +47,7 @@
         <div id="menu">
                 <h:form>
                     <nav class="navbar-default">
-                    <p:menubar id="menudynamic" model="#{menuBean.model}"/>
+                        <p:menubar id="menudynamic" toggleEvent="hover" model="#{menuBean.model}"/>
                     </nav>
                 </h:form>
             </div>
@@ -56,8 +56,8 @@
             <div id="left">
  
         <ul class="nav nav-sidebar">
-            <li class="active"><a>Acciones</a></li>
-            <li><a href="#">Crear pedido</a></li>
+            <li class="active"><a>#{msg['tmpAccion']}</a></li>
+            <li><a href="crearPedido.xhtml">#{msg['hCrearPedido']}</a></li>
             <li><a href="#">Ver perdidos</a></li>
             <li><a href="#">Dashboard</a></li>
         </ul>         
