@@ -82,6 +82,7 @@
                                             <f:selectItems value="#{productoBean.selectItemProducto}"/>
                                             <f:ajax event="change" execute="@form" render="change"/>
                                         </p:selectOneMenu>
+                                        
 
                                         <p:outputLabel for="cantidad" value="Cantidad"/>
                                         <p:inputNumber id="cantidad" value="#{crearPedidoBean.selectedPedido.cantidad}" decimalPlaces="0" placeholder="Digite la cantidad" required="true">
