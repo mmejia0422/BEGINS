@@ -6,17 +6,16 @@
 package dao;
 
 import java.util.List;
-import model.Empleado;
+import model.DetaOrdenVenta;
 
 /**
  *
  * @author Mario
  */
-public interface EmpleadoDao {
-    public List<Empleado> findAll();
-    public boolean create(Empleado empleado);
-    public boolean update(Empleado empleado);
+public interface OrdenVentaDetDao {
+    public boolean create(DetaOrdenVenta detVenta);
+    public boolean update(DetaOrdenVenta detVenta);
     public boolean delete(Integer id);
-    public List<Empleado> selectItems();
-    public Empleado obtenerEmpleado(Integer id); //id empleado
+    public List<DetaOrdenVenta> lineasPedido(Integer idCabecera);
+    
 }

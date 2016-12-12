@@ -107,5 +107,20 @@ public class EmpleadoDaoImpl implements EmpleadoDao{
         }
         return listado;
     }
+
+    @Override
+    public Empleado obtenerEmpleado(Integer id) {
+       Empleado emp = null;
+        Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = sesion.beginTransaction();
+        String sql = "FROM Empleado where id_empleado = '" + id + "'";
+        try {
+            emp = (Empleado) sesion.createQuery(sql).uniqueResult();
+            tx.commit();
+        } catch (Exception e) {
+            tx.rollback();
+        }
+        return emp;        
+    }
     
 }

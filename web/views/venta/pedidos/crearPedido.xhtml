@@ -22,16 +22,15 @@
                     <h2>#{msg['hCrearPedido']}</h2>
                     <p:separator/>
                     <br/>
-                    <h:form>
-                        <!--<p:steps activeIndex="1" styleClass="custom" readonly="false">
-                        <p:menuitem value="Datos generales"/>
-                        <p:menuitem value="Detalle de orden" />
-                        <p:menuitem value="Selección de prioridad" />
-                        <p:menuitem value="Revisión" />
-                    </p:steps>-->
-                        <p:growl id="growl" sticky="true" showDetail="true"/>
-                        <p:wizard flowListener="#{cPedidoWizard.onFlowProcess}">
+                    <h:form id="formWizard">
+                        <p:growl id="growl" showDetail="true"/>
+                        <p:wizard flowListener="#{cPedidoWizard.onFlowProcess}" backLabel="#{msg['btnAtras']}" nextLabel="#{msg['btnSiguiente']}"
+                                  showNavBar="false" widgetVar="wizard">
                             <p:tab id="general" title="#{msg['wizGeneralInfo']}">
+                                <div align="right">
+                                    <p:commandButton value="#{msg['btnSiguiente']}" iconPos="right" type="button" 
+                                                     onclick="PF('wizard').next();"/>
+                                </div>
                                 <p:panel header="#{msg['hdInformacionPedido']}">
                                     <p:messages />
                                     <p:panelGrid columns="2" style="margin: 0 auto" class="companyHeaderGrid">
@@ -44,7 +43,7 @@
 
                                         <p:outputLabel for="fechaPedido" value="#{msg['lbFechaPedido']}" />
                                         <p:inputText id="fechaPedido" value="#{currentDate}" disabled="true" required="true">
-                                            <f:convertDateTime pattern="dd-MMM-yy hh:mm aa"/>
+                                            <f:convertDateTime pattern="yyyy/MM/dd hh:mm:ss"/>
                                         </p:inputText>
 
                                         <p:outputLabel for="fechaEntrega" value="#{msg['lbFechaEntrega']}" />
@@ -67,9 +66,15 @@
                                 </p:panel>
                             </p:tab>
                             <p:tab id="detalle" title="#{msg['wizDetails']}">
+                                <div align="right">
+                                    <p:commandButton value="#{msg['btnAtras']}" iconPos="right" type="button" 
+                                                     onclick="PF('wizard').back();"/>
+                                    <p:commandButton value="#{msg['btnSiguiente']}" iconPos="right" type="button" 
+                                                     onclick="PF('wizard').next();"/>
+                                </div>
                                 <p:panel header="#{msg['hdLineaPedido']}">
                                     <p:messages />
-                                    <p:panelGrid columns="2" style="margin: 0 auto" class="companyHeaderGrid">
+                                    <p:panelGrid columns="4" style="margin: 0 auto" class="companyHeaderGrid">
                                         <p:outputLabel for="producto" value="Producto" />
                                         <p:selectOneMenu  id="producto" required="true" valueChangeListener="#{crearPedidoBean.productoCambiaValor}"
                                                           value="#{crearPedidoBean.selectedPedido.catProducto.idCatProducto}">
@@ -79,55 +84,80 @@
                                         </p:selectOneMenu>
 
                                         <p:outputLabel for="cantidad" value="Cantidad"/>
-                                        <p:inputNumber id="cantidad" value="#{crearPedidoBean.selectedPedido.cantidad}" minValue="0" decimalPlaces="0" placeholder="Digite la cantidad" required="true"/>
+                                        <p:inputNumber id="cantidad" value="#{crearPedidoBean.selectedPedido.cantidad}" decimalPlaces="0" placeholder="Digite la cantidad" required="true">
+                                        <f:validateDoubleRange minimum="1" />
+                                        </p:inputNumber>
 
-                                        <p:outputLabel for="precio" value="Precio unitario"/>
+                                        <p:outputLabel value="Precio unitario"/>
                                         <p:inputNumber id="precio" decimalSeparator="." thousandSeparator="," 
-                                                       value="#{crearPedidoBean.selectedPedido.precio}" minValue="0" decimalPlaces="2" 
+                                                       value="#{crearPedidoBean.selectedPedido.precio}" decimalPlaces="2" 
                                                        placeholder="Precio de venta" required="true"
-                                                       symbol="$"/>
-
-                                        <h:outputText id="dumy1" rendered="true" value=""/>
-                                        <h:outputText id="change" value="Precio sugerido: "/>
+                                                       symbol="$">
+                                            <f:validateDoubleRange minimum="1"/>
+                                        </p:inputNumber>
+                                        <p:tooltip id="tooltip" for="precio"
+                                                   trackMouse="true" value="Precio sugerido: $"/>
+                                        <p:outputLabel id="dual" value=""/>
 
 
                                         <p:outputLabel for="comm" value="Comentarios" />
-                                        <p:inputTextarea id="comm" value="#{crearPedidoBean.selectedPedido.comentarios}" placeholder="Escriba comentarios adicionales" rows="5" cols="30" counter="display" maxlength="150" counterTemplate="{0} characters remaining." autoResize="true" />
+                                        <p:inputTextarea id="comm" value="#{crearPedidoBean.selectedPedido.comentarios}" placeholder="Escriba comentarios adicionales" rows="5" cols="30" maxlength="150" autoResize="true" />
 
-                                        <h:outputText id="dumy" rendered="true" value=""/>
-                                        <h:outputText id="display"/>
                                         <br/>
                                     </p:panelGrid>
                                     <div align="center">
-                                        <p:commandButton id="btnAgregar" value="Agregar" update="" oncomplete=""/>
-                                        <p:commandButton id="btnLimpiar" value="Limpiar campos" update="" oncomplete=""/>
+                                        <p:commandButton id="btnAgregar" action="#{crearPedidoBean.setHasLines(true)}" actionListener="#{crearPedidoBean.btnCreate(actionEvent, usuarioBean.objUsuarioSesion)}" 
+                                                         value="Agregar" update=":formWizard:lineas, :formWizard:growl">
+                                        </p:commandButton>
                                     </div>
                                 </p:panel>
                                 <br/>
+                                <p:panel header="Lineas del pedido" toggleOrientation="horizontal" 
+                                         toggleable="true">
+                                    <p:dataTable id="lineas"  resizeMode="true" scrollWidth="true" resizableColumns="true" rendered="true" scrollable="true" 
+                                                 var="pedido" rowHover="true" editable="true" value="#{crearPedidoBean.listadoLineas}">
 
-                                <p:dataTable resizableColumns="true" rendered="true" editable="true" scrollable="true" 
-                                             var="pedido"  value="">
-                                    <p:column headerText="Producto">
-                                        <h:outputText value=""/>
-                                    </p:column>
+                                        <p:ajax event="rowEdit" listener="#{rowEditBean.onRowEdit(event)}" update=":formWizard:growl"/>
+                                        <p:ajax event="rowEditCancel" listener="#{rowEditBean.onRowCancel(event)}" update=":formWizard:growl"/>
+                                        <p:column headerText="Producto">
+                                            <p:cellEditor>
+                                                <f:facet name="output">
+                                                    <h:outputText value="#{pedido.catProducto.nombre}"/>
+                                                </f:facet>
+                                                <f:facet name="input">
+                                                    <p:selectOneMenu required="true" 
+                                                                     value="#{crearPedidoBean.selectedPedido.catProducto.idCatProducto}">
+                                                        <f:selectItems value="#{productoBean.selectItemProducto}"/>
+                                                    </p:selectOneMenu>
+                                                </f:facet>
+                                            </p:cellEditor> 
+                                        </p:column>
 
-                                    <p:column headerText="Cantidad">
-                                        <h:outputText value="" />
-                                    </p:column>
+                                        <p:column headerText="Descripcion">
+                                            <h:outputText value="#{pedido.catProducto.presentacion.nombre} - #{pedido.catProducto.presentacion.descripcion}"/>
+                                        </p:column>
 
-                                    <p:column headerText="Monto">
-                                        <h:outputText value="" />
-                                    </p:column>
+                                        <p:column headerText="Cantidad">
+                                            <h:outputText value="#{pedido.cantidad}" />
+                                        </p:column>
 
-                                    <p:column headerText="Comentarios">
-                                        <h:outputText value="" />
-                                    </p:column>
-                                    <p:column headerText="Acción" style="width:100px;text-align: center">
-                                        <p:commandButton id="btnDelete" update="" oncomplete="" icon="icon-delete" title="Eliminar">
-                                            <!--Action listener-->
-                                        </p:commandButton>
-                                    </p:column>
-                                </p:dataTable>
+                                        <p:column headerText="Precio unitario">
+                                            <h:outputText value="#{pedido.precio}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Comentarios">
+                                            <h:outputText value="#{pedido.comentarios}" />
+                                        </p:column>
+                                        <p:column style="width: 32 px">
+                                            <p:rowEditor/>
+                                        </p:column>    
+                                        <p:column headerText="Acción" style="width:100px;text-align: center">
+                                            <p:commandButton id="btnDelete" update="" oncomplete="" icon="icon-delete" title="Eliminar">
+                                                <!--Action listener-->
+                                            </p:commandButton>
+                                        </p:column>
+                                    </p:dataTable>
+                                </p:panel>
                             </p:tab>
 
                             <p:tab id="confirmar" title="Revisión">

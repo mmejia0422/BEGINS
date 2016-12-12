@@ -36,6 +36,7 @@ public class usuarioBean {
     private Usuario selectedUsuario;
     private List<SelectItem> selectOneItemsUsuario;
     private String usuarioSesion;
+    private Usuario objUsuarioSesion;
 
     public usuarioBean() {
         this.usuarios = new ArrayList<Usuario>();
@@ -165,4 +166,11 @@ public class usuarioBean {
         usuarioSesion = us.getUsuario();
         return usuarioSesion;
     }
+
+    public Usuario getObjUsuarioSesion() {
+        this.objUsuarioSesion = (Usuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario");
+        return objUsuarioSesion;
+    }
+    
+    
 }

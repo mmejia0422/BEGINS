@@ -23,8 +23,8 @@
         <Node id="views/venta/pedidos/crearPedido.xhtml" x="1650" y="150" zoom="true"/>
         <Node id="views/venta/pedidos/tmplMenuVertical.xhtml" x="1400" y="300" zoom="true"/>
         <Node id="views/usuario/iconos.xhtml" x="650" y="600" zoom="true"/>
-        <Node id="views/venta/pedidos/header.xhtml" x="900" y="600" zoom="true"/>
         <Node id="views/usuario/proveedores.xhtml" x="650" y="450" zoom="true"/>
+        <Node id="views/venta/pedidos/header.xhtml" x="900" y="600" zoom="true"/>
         <Node id="views/producto/marcas.xhtml" x="400" y="300" zoom="true"/>
         <Node id="views/pais/depto.xhtml" x="1150" y="150" zoom="true"/>
     </Scope>

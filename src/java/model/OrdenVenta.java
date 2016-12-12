@@ -1,5 +1,5 @@
 package model;
-// Generated 11-20-2016 09:32:27 PM by Hibernate Tools 4.3.1
+// Generated 12-11-2016 03:04:20 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -12,7 +12,7 @@ import java.util.Set;
 public class OrdenVenta  implements java.io.Serializable {
 
 
-     private int idOrdenVenta;
+     private Integer idOrdenVenta;
      private Cliente cliente;
      private Empleado empleado;
      private EstadoDocumentos estadoDocumentos;
@@ -21,17 +21,17 @@ public class OrdenVenta  implements java.io.Serializable {
      private Date fechaEntrega;
      private String prioridadAlta;
      private String descripcion;
+     private String procesado;
      private Set detaOrdenVentas = new HashSet(0);
 
     public OrdenVenta() {
-        this.empleado = new Empleado();
         this.cliente = new Cliente();
+        this.empleado = new Empleado();
         this.estadoDocumentos = new EstadoDocumentos();
     }
 
 	
-    public OrdenVenta(int idOrdenVenta, Cliente cliente, Empleado empleado, EstadoDocumentos estadoDocumentos, Date fecha, String prioridadAlta, String descripcion) {
-        this.idOrdenVenta = idOrdenVenta;
+    public OrdenVenta(Cliente cliente, Empleado empleado, EstadoDocumentos estadoDocumentos, Date fecha, String prioridadAlta, String descripcion) {
         this.cliente = cliente;
         this.empleado = empleado;
         this.estadoDocumentos = estadoDocumentos;
@@ -39,8 +39,7 @@ public class OrdenVenta  implements java.io.Serializable {
         this.prioridadAlta = prioridadAlta;
         this.descripcion = descripcion;
     }
-    public OrdenVenta(int idOrdenVenta, Cliente cliente, Empleado empleado, EstadoDocumentos estadoDocumentos, Date fecha, Date fechaVence, Date fechaEntrega, String prioridadAlta, String descripcion, Set detaOrdenVentas) {
-       this.idOrdenVenta = idOrdenVenta;
+    public OrdenVenta(Cliente cliente, Empleado empleado, EstadoDocumentos estadoDocumentos, Date fecha, Date fechaVence, Date fechaEntrega, String prioridadAlta, String descripcion, String procesado, Set detaOrdenVentas) {
        this.cliente = cliente;
        this.empleado = empleado;
        this.estadoDocumentos = estadoDocumentos;
@@ -49,14 +48,15 @@ public class OrdenVenta  implements java.io.Serializable {
        this.fechaEntrega = fechaEntrega;
        this.prioridadAlta = prioridadAlta;
        this.descripcion = descripcion;
+       this.procesado = procesado;
        this.detaOrdenVentas = detaOrdenVentas;
     }
    
-    public int getIdOrdenVenta() {
+    public Integer getIdOrdenVenta() {
         return this.idOrdenVenta;
     }
     
-    public void setIdOrdenVenta(int idOrdenVenta) {
+    public void setIdOrdenVenta(Integer idOrdenVenta) {
         this.idOrdenVenta = idOrdenVenta;
     }
     public Cliente getCliente() {
@@ -114,6 +114,13 @@ public class OrdenVenta  implements java.io.Serializable {
     
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+    public String getProcesado() {
+        return this.procesado;
+    }
+    
+    public void setProcesado(String procesado) {
+        this.procesado = procesado;
     }
     public Set getDetaOrdenVentas() {
         return this.detaOrdenVentas;

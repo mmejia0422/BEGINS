@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 11-20-2016 09:32:29 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated 12-11-2016 03:04:22 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="model.OrdenVenta" table="orden_venta" catalog="gasisw_bd1" optimistic-lock="version">
-        <id name="idOrdenVenta" type="int">
+        <id name="idOrdenVenta" type="java.lang.Integer">
             <column name="id_orden_venta" />
-            <generator class="assigned" />
+            <generator class="identity" />
         </id>
         <many-to-one name="cliente" class="model.Cliente" fetch="select">
             <column name="cliente_id_cliente" not-null="true" />
@@ -31,6 +31,9 @@
         </property>
         <property name="descripcion" type="string">
             <column name="descripcion" length="150" not-null="true" />
+        </property>
+        <property name="procesado" type="string">
+            <column name="procesado" length="45" />
         </property>
         <set name="detaOrdenVentas" table="deta_orden_venta" inverse="true" lazy="true" fetch="select">
             <key>

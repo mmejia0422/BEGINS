@@ -33,18 +33,22 @@ public class productoBean {
         ProductoDao producto = new ProductoDaoImpl();
         List<CatProducto> listado = producto.selectItems();
         for (CatProducto p : listado) {
-            SelectItem selectItem = new SelectItem(p.getIdCatProducto(), p.getNombre() + " - " + p.getPresentacion().getNombre() + " - " + p.getPresentacion().getDescripcion());
+            SelectItem selectItem = new SelectItem(p.getIdCatProducto(), p.getNombre() + " - " + p.getPresentacion().getDescripcion());
             this.selectItemProducto.add(selectItem);
         }
         return selectItemProducto;
     }
 
     public Double getPrecioLista(Integer id_producto) {
+        if (id_producto != null){
         ProductoDao p = new ProductoDaoImpl();
         List<CatProducto> listado = null;
         
         listado = p.obtenerProdSeleccionado(id_producto);
         this.precioLista = (double)listado.get(0).getPrecio();
+        } else {
+            this.precioLista = 0.0;
+        }
         return precioLista;
     }
 

@@ -29,6 +29,7 @@ public class Presentacion  implements java.io.Serializable {
      private Set catProductos = new HashSet(0);
 
     public Presentacion() {
+        this.idPresentacion = 0;
     }
 
     public Presentacion(String nombre, String descripcion, Set catProductos) {
