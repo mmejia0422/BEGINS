@@ -5,6 +5,7 @@
  */
 package dao;
 
+import model.DetaOrdenVenta;
 import model.OrdenVenta;
 
 /**
@@ -12,8 +13,13 @@ import model.OrdenVenta;
  * @author Mario
  */
 public interface OrdenVentaDao {
+
     public boolean create(OrdenVenta venta, boolean flag);
+
     public boolean update(OrdenVenta venta);
+
     public boolean delete(Integer id);
-    
+
+    public boolean confirmarPedido(OrdenVenta oVenta);
+
 }

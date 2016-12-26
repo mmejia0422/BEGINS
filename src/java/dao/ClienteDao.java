@@ -18,4 +18,5 @@ public interface ClienteDao {
     public boolean update(Cliente cliente);
     public boolean delete(Integer id);
     public List<Cliente> selectItems();
+    public Cliente findClientebyId(Integer id);
 }

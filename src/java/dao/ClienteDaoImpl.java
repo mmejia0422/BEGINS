@@ -112,5 +112,23 @@ public class ClienteDaoImpl implements ClienteDao{
         }
         return listado;
     }
+
+    @Override
+    public Cliente findClientebyId(Integer id) {
+       Cliente model = null;
+        Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = sesion.beginTransaction();
+        String sql = "FROM Cliente where idCliente = " + id;
+        try {
+            //sesion.beginTransaction();
+            model = (Cliente) sesion.createQuery(sql).uniqueResult();
+            //sesion.beginTransaction().commit();
+            tx.commit();
+        } catch (Exception e) {
+            //sesion.beginTransaction().rollback();
+            tx.rollback();
+        }
+        return model;
+    }
     
 }

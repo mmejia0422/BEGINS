@@ -17,5 +17,5 @@ public interface OrdenVentaDetDao {
     public boolean update(DetaOrdenVenta detVenta);
     public boolean delete(Integer id);
     public List<DetaOrdenVenta> lineasPedido(Integer idCabecera);
-    
+
 }

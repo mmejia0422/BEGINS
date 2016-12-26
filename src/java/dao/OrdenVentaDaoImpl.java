@@ -48,4 +48,24 @@ public class OrdenVentaDaoImpl implements OrdenVentaDao {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
+    @Override
+    public boolean confirmarPedido(OrdenVenta oVenta) {
+        boolean flag;
+        Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = sesion.beginTransaction();
+        try {
+            OrdenVenta oVentaBd = (OrdenVenta) sesion.load(OrdenVenta.class, oVenta.getIdOrdenVenta());
+            oVentaBd.setProcesado("Y");
+            sesion.update(oVentaBd);
+            tx.commit();
+            flag = true;
+        }catch(Exception e){
+            flag = false;
+            tx.rollback();
+            e.printStackTrace();
+        }
+        
+        return flag;
+    }
+    
 }

@@ -5,6 +5,7 @@
  */
 package bean;
 
+import java.awt.event.ActionEvent;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -39,14 +40,12 @@ public class cPedidoWizard {
     
 public String onFlowProcess(FlowEvent event) {
         if(skip) {
-            skip = false;   //reset in case user goes back
-            return "confirm";
+            skip = false;   //reset in case user need to create a new order
+            return "general";
         }
         else {
             return event.getNewStep();
         }
     }
-
-
 
 }

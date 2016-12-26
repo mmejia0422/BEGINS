@@ -74,7 +74,7 @@
                                 </div>
                                 <p:panel header="#{msg['hdLineaPedido']}">
                                     <p:messages />
-                                    <p:panelGrid columns="4" style="margin: 0 auto" class="companyHeaderGrid">
+                                    <p:panelGrid id="detLineas" columns="4" style="margin: 0 auto" class="companyHeaderGrid">
                                         <p:outputLabel for="producto" value="Producto" />
                                         <p:selectOneMenu  id="producto" required="true" valueChangeListener="#{crearPedidoBean.productoCambiaValor}"
                                                           value="#{crearPedidoBean.selectedPedido.catProducto.idCatProducto}">
@@ -82,11 +82,11 @@
                                             <f:selectItems value="#{productoBean.selectItemProducto}"/>
                                             <f:ajax event="change" execute="@form" render="change"/>
                                         </p:selectOneMenu>
-                                        
+
 
                                         <p:outputLabel for="cantidad" value="Cantidad"/>
                                         <p:inputNumber id="cantidad" value="#{crearPedidoBean.selectedPedido.cantidad}" decimalPlaces="0" placeholder="Digite la cantidad" required="true">
-                                        <f:validateDoubleRange minimum="1" />
+                                            <f:validateDoubleRange minimum="1" />
                                         </p:inputNumber>
 
                                         <p:outputLabel value="Precio unitario"/>
@@ -118,7 +118,7 @@
                                     <p:dataTable id="lineas"  resizeMode="true" scrollWidth="true" resizableColumns="true" rendered="true" scrollable="true" 
                                                  var="pedido" rowHover="true" editable="true" value="#{crearPedidoBean.listadoLineas}">
 
-                                        <p:ajax event="rowEdit" listener="#{rowEditBean.onRowEdit(event)}" update=":formWizard:growl"/>
+                                        <p:ajax event="rowEdit" listener="#{rowEditBean.onRowEdit(event)}" update=":formWizard:growl, :formWizard:lineas"/>
                                         <p:ajax event="rowEditCancel" listener="#{rowEditBean.onRowCancel(event)}" update=":formWizard:growl"/>
                                         <p:column headerText="Producto">
                                             <p:cellEditor>
@@ -139,15 +139,36 @@
                                         </p:column>
 
                                         <p:column headerText="Cantidad">
-                                            <h:outputText value="#{pedido.cantidad}" />
+                                            <p:cellEditor>
+                                                <f:facet name="output">
+                                                    <h:outputText value="#{pedido.cantidad}" />
+                                                </f:facet>
+                                                <f:facet name="input">
+                                                    <p:inputText value="#{pedido.cantidad}" />
+                                                </f:facet>
+                                            </p:cellEditor>
                                         </p:column>
 
                                         <p:column headerText="Precio unitario">
-                                            <h:outputText value="#{pedido.precio}"/>
+                                            <p:cellEditor>
+                                                <f:facet name="output">
+                                                    <h:outputText value="#{pedido.precio}"/>
+                                                </f:facet>
+                                                <f:facet name="input">
+                                                    <p:inputText value="#{pedido.precio}"/>
+                                                </f:facet>
+                                            </p:cellEditor>
                                         </p:column>
 
                                         <p:column headerText="Comentarios">
-                                            <h:outputText value="#{pedido.comentarios}" />
+                                            <p:cellEditor>
+                                                <f:facet name ="output">
+                                                    <h:outputText value="#{pedido.comentarios}" />
+                                                </f:facet>
+                                                <f:facet name ="input">
+                                                    <p:inputText value="#{pedido.comentarios}" />
+                                                </f:facet>
+                                            </p:cellEditor>
                                         </p:column>
                                         <p:column style="width: 32 px">
                                             <p:rowEditor/>
@@ -161,13 +182,82 @@
                                 </p:panel>
                             </p:tab>
 
-                            <p:tab id="confirmar" title="Revisión">
-                                <p:panel header="Confirmar pedido">
-                                    <p:messages />
-                                    <p:panelGrid columns="2" style="margin: 0 auto" class="companyHeaderGrid">
+                            <p:tab id="confirmar" title="#{msg['wizRevision']}">
+                                <div align="right">
+                                    <p:commandButton value="#{msg['btnAtras']}" iconPos="right" type="button" 
+                                                     onclick="PF('wizard').back();"/>
+                                    <p:commandButton value="#{msg['btnConfirm']}" iconPos="right"
+                                                     actionListener="#{crearPedidoBean.confirmarPedido(crearPedidoBean.selectedCabecera)}"
+                                                     update=":formWizard:growl" action="crearPedido?faces-redirect=true"/>
+                                </div>
+                                <p:messages/>
+                                <p:panelGrid columns="4" style="margin: 0 auto" class="companyHeaderGrid">
+                                    <p:outputLabel value="#{msg['lbNombreCliente']}:"/>
+                                    <h:outputText value="#{crearPedidoBean.clientePedido(crearPedidoBean.selectedCabecera.cliente.idCliente)}"/>
 
-                                    </p:panelGrid>
-                                </p:panel>
+                                    <p:outputLabel value="#{msg['lbFechaPedido']}:" />
+                                    <h:outputText value="#{crearPedidoBean.selectedCabecera.fecha}"/>
+
+                                    <p:outputLabel value="#{msg['lbFechaEntrega']}:"/>
+                                    <h:outputText value="#{crearPedidoBean.selectedCabecera.fechaEntrega}"/>
+
+                                    <p:outputLabel for="prioridad" value="#{msg['lbPrioridad2']}:"/>
+                                    <h:outputText value="#{crearPedidoBean.selectedCabecera.prioridadAlta}"/>
+
+                                    <p:outputLabel for="desc" value="#{msg['lbDescripcion']}:"/>
+                                    <h:outputText value="#{crearPedidoBean.selectedCabecera.descripcion}"/>
+                                </p:panelGrid>
+
+                                <p:dataTable id="confirmacion"  rendered="true" sortBy="#{conf.catProducto.nombre}"
+                                             var="conf" value="#{crearPedidoBean.listadoLineas}">
+                                    <p:column headerText="Producto">
+                                        <h:outputText value="#{conf.catProducto.nombre}"/>
+                                    </p:column>
+
+                                    <p:column headerText="Descripcion">
+                                        <h:outputText value="#{conf.catProducto.presentacion.nombre} - #{conf.catProducto.presentacion.descripcion}"/>
+                                    </p:column> 
+
+                                    <p:column headerText="Cantidad">
+                                        <h:outputText value="#{conf.cantidad}" />
+                                    </p:column>
+
+                                    <p:column headerText="Precio unitario">
+                                        <h:outputText value="#{conf.precio}">
+                                            <f:convertNumber type="currency" currencySymbol="$"/>
+                                        </h:outputText>
+                                    </p:column>
+
+                                    <p:column headerText="Comentarios">
+                                        <h:outputText value="#{conf.comentarios}" />
+                                    </p:column>
+
+                                    <p:column headerText="Monto">
+                                        <h:outputText value="#{crearPedidoBean.MontoLinea(conf.cantidad, conf.precio)}">
+                                            <f:convertNumber type="currency" currencySymbol="$"/>
+                                        </h:outputText>
+                                    </p:column>
+
+                                    <p:summaryRow>
+                                        <p:column colspan="5" style="text-align: right">
+                                            <h:outputText value="Total:"/>
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText value="#{crearPedidoBean.totalLineas}">
+                                                <f:convertNumber type="currency" currencySymbol="$"/>
+                                            </h:outputText>
+                                        </p:column>
+                                    </p:summaryRow>
+                                </p:dataTable>
+
+                                <!--<h:form id="formConf">
+                                    <p:confirmDialog id="confirmDialog" widgetVar="dialogNew" message="#{msg['confirmarPedido']}"
+                                                     showEffect="fade" hideEffect="fade" header="#{msg['hExitoso']}">
+                                        <p:commandButton actionListener="crearPedido?faces-redirect=true" onclick="PF('dialogNew').hide()" id="confirm" icon="icon-check" value="#{msg['btnSi']}"/>
+                                        <p:commandButton id="decline" value="#{msg['btnNo']}" oncomplete="PF('dialogNew').hide()" icon="icon-cancel" />
+                                    </p:confirmDialog>
+                                </h:form>-->
+
                             </p:tab>
                         </p:wizard>
                     </h:form>
@@ -175,6 +265,10 @@
             </ui:define>
         </ui:composition>
 
+<script>
+function reload() {
+    location.reload();
+}
+</script>
     </body>
-
 </html>

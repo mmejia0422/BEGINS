@@ -5,6 +5,8 @@
  */
 package bean;
 
+import dao.ClienteDao;
+import dao.ClienteDaoImpl;
 import dao.EmpleadoDao;
 import dao.EmpleadoDaoImpl;
 import dao.OrdenVentaDao;
@@ -14,6 +16,7 @@ import dao.OrdenVentaDetDaoImpl;
 import dao.estadoDocDao;
 import dao.estadoDocDaoImpl;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -27,14 +30,18 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
+import javax.servlet.http.HttpServletRequest;
 import javax.swing.text.html.HTML;
+import model.Cliente;
 import model.DetaOrdenVenta;
 import model.EstadoDocumentos;
 import model.OrdenVenta;
 import model.Usuario;
 import org.omg.CORBA.Current;
+import util.MyUtil;
 
 /**
  *
@@ -124,7 +131,48 @@ public class crearPedidoBean {
     public void setHasLines(boolean hasLines) {
         this.hasLines = hasLines;
     }
+
+    public double MontoLinea(int cantidad, byte precio) {
+        double montoLinea;
+        montoLinea = cantidad * precio;
+        
+        return montoLinea;
+    }
+
+    public double getTotalLineas() {
+        double totalLineas = 0;
+        for(int i = 0; this.listadoLineas.size() > i; i++){
+            totalLineas = totalLineas + (this.listadoLineas.get(i).getCantidad() * this.listadoLineas.get(i).getPrecio());
+        }
+        return totalLineas;
+    }
     
+    public String clientePedido(Integer id){
+        Cliente nombre;
+        ClienteDao cDao = new ClienteDaoImpl();
+        
+        nombre = cDao.findClientebyId(id);
+        
+        return nombre.getNombre() + ' ' + nombre.getApellido();
+    }
     
+    public void confirmarPedido(OrdenVenta oVenta){
+        OrdenVentaDao oDao = new OrdenVentaDaoImpl();
+        String msg;
+
+        if(oDao.confirmarPedido(oVenta)){
+            
+         msg = "Se guardo correctamente el pedido";
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, msg, null);
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            
+            
+        } else {
+            msg = "Error al crear el pedido";
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, null);
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        }
+        
+    }
     
 }
