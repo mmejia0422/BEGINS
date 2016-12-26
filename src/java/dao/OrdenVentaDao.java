@@ -5,6 +5,7 @@
  */
 package dao;
 
+import java.util.List;
 import model.DetaOrdenVenta;
 import model.OrdenVenta;
 
@@ -21,5 +22,7 @@ public interface OrdenVentaDao {
     public boolean delete(Integer id);
 
     public boolean confirmarPedido(OrdenVenta oVenta);
+    
+    public List<OrdenVenta> reportePedido(); //adicionar params
 
 }

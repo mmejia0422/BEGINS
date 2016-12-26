@@ -5,6 +5,7 @@
  */
 package dao;
 
+import java.util.List;
 import model.OrdenVenta;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -66,6 +67,25 @@ public class OrdenVentaDaoImpl implements OrdenVentaDao {
         }
         
         return flag;
+    }
+
+    @Override
+    public List<OrdenVenta> reportePedido() {
+        List<OrdenVenta> listado = null;
+        Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = sesion.beginTransaction();
+        String sql = "from OrdenVenta ov left join fetch ov.estadoDocumentos docs left join "
+                + "     fetch ov.cliente cl left join fetch ov.empleado em "
+                + "   where docs.idestadoDocumentos = coalesce(1, docs.idestadoDocumentos) and cl.idCliente = coalesce(1, cl.idCliente) "
+                + "and em.idEmpleado = coalesce(1, em.idEmpleado) and ov.prioridadAlta = coalesce('Y', ov.prioridadAlta)"
+                + " order by docs.estado, ov.prioridadAlta desc, ov.fechaEntrega asc, ov.idOrdenVenta";
+        try {
+            listado = sesion.createQuery(sql).list();
+            tx.commit();
+        } catch (Exception e) {
+            tx.rollback();
+        }
+        return listado;  
     }
     
 }
