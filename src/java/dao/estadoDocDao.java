@@ -5,6 +5,7 @@
  */
 package dao;
 
+import java.util.List;
 import model.EstadoDocumentos;
 
 /**
@@ -13,4 +14,5 @@ import model.EstadoDocumentos;
  */
 public interface estadoDocDao {
     public EstadoDocumentos nuevoDoc();
+    public List<EstadoDocumentos> selectItems();
 }

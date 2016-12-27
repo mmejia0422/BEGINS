@@ -33,6 +33,7 @@ public class empleadoBean {
     private List<Empleado> empleados;
     private Empleado selectedEmpleados;
     private List<SelectItem> selectOneItemsEmp;
+    private List<SelectItem> filterEmpleados;
     
     public empleadoBean() {
         this.empleados = new ArrayList<Empleado>();
@@ -116,6 +117,17 @@ public class empleadoBean {
             this.selectOneItemsEmp.add(selectItem);
         }
         return selectOneItemsEmp;
+    }
+
+    public List<SelectItem> getFilterEmpleados() {
+        this.filterEmpleados = new ArrayList<SelectItem>();
+        EmpleadoDao empleadoDao = new EmpleadoDaoImpl();
+        List<Empleado> empleados = empleadoDao.selectItems();
+        for (Empleado emp : empleados) {
+            SelectItem selectItem = new SelectItem(emp.getIdEmpleado(), emp.getNombre() + " " + emp.getApellido());
+            this.filterEmpleados.add(selectItem);
+        }
+        return filterEmpleados;
     }
     
 }

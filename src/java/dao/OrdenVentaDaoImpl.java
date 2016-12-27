@@ -70,14 +70,14 @@ public class OrdenVentaDaoImpl implements OrdenVentaDao {
     }
 
     @Override
-    public List<OrdenVenta> reportePedido() {
+    public List<OrdenVenta> reportePedido(/*Integer param1, Integer param2, String param3*/) {
         List<OrdenVenta> listado = null;
         Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = sesion.beginTransaction();
         String sql = "from OrdenVenta ov left join fetch ov.estadoDocumentos docs left join "
                 + "     fetch ov.cliente cl left join fetch ov.empleado em "
-                + "   where docs.idestadoDocumentos = coalesce(1, docs.idestadoDocumentos) and cl.idCliente = coalesce(1, cl.idCliente) "
-                + "and em.idEmpleado = coalesce(1, em.idEmpleado) and ov.prioridadAlta = coalesce('Y', ov.prioridadAlta)"
+                + "   where docs.idestadoDocumentos = coalesce(null, docs.idestadoDocumentos) and cl.idCliente = coalesce(null, cl.idCliente) "
+                + "and em.idEmpleado = coalesce(null, em.idEmpleado) and ov.prioridadAlta = coalesce(null, ov.prioridadAlta)"
                 + " order by docs.estado, ov.prioridadAlta desc, ov.fechaEntrega asc, ov.idOrdenVenta";
         try {
             listado = sesion.createQuery(sql).list();

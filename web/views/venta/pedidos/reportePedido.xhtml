@@ -17,47 +17,97 @@
                     <h2>Listado de Órdenes</h2>
                     <p:separator/>
                     <br/>
-                <h:form id="reportP">
-                    <p:growl id="growl" showDetail="true"/>
-                    <p:dataTable id="report"  resizeMode="true" scrollWidth="true" resizableColumns="true" rendered="true" scrollable="true" 
-                                 var="pedido" rowHover="true" value="#{pedidoBean.reportePedidos}"
-                                 paginator="true" rows="10"
-                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                 rowsPerPageTemplate="10,15">
-                        <p:column headerText="No. pedido">
-                            <h:outputText value="#{pedido.idOrdenVenta}" />
-                        </p:column>
-                        
-                        <p:column headerText="Estado">
-                            <h:outputText value="#{pedido.estadoDocumentos.estado}" />
-                        </p:column>
-                        
-                        <p:column headerText="Fecha entrega">
-                            <h:outputText value="#{pedido.fechaEntrega}" />
-                        </p:column>
-                        
-                        <p:column headerText="Cliente">
-                            <h:outputText value="#{pedido.cliente.nombre} #{pedido.cliente.apellido}" />
-                        </p:column>
-                        
-                        <p:column headerText="Prioridad">
-                            <h:outputText value="#{pedido.prioridadAlta}" />
-                        </p:column>
-                        
-                        <p:column headerText="Dias restantes">
-                            <h:outputText value="#{pedido.diasRestantes}" />
-                        </p:column>
-                        
-                        <p:column headerText="Creada por">
-                            <h:outputText value="#{pedido.empleado.nombre} #{pedido.empleado.apellido}" />
-                        </p:column>
-                        
-                        <p:column headerText="Descripcion">
-                            <h:outputText value="#{pedido.descripcion}" />
-                        </p:column>
-                    </p:dataTable>
-                </h:form>
-                    </div>
+                    <h:form id="FormReport">
+                        <p:growl id="growl" showDetail="true"/>
+                        <p:dataTable id="report"  resizeMode="true" scrollWidth="true" resizableColumns="true" rendered="true" scrollable="true" 
+                                     var="pedido" rowHover="true" value="#{pedidoBean.reportePedidos}" widgetVar="tbOrders"
+                                     paginator="true" rows="10" emptyMessage="#{msg['dtNoRecords']}"
+                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="10,15" 
+                                     selectionMode="single" selection="#{pedidoBean.selectedOrden}" rowKey="#{pedido.idOrdenVenta}">
+                            <f:facet name="header">
+                                <p:commandButton id="toggler" type="button" value="#{msg['btnColumns']}" style="float:right" icon="ui-icon-calculator" />
+                                <p:columnToggler datasource="report" trigger="toggler" />
+                            </f:facet>
+
+                            <p:ajax event="rowSelect" listener="#{pedidoBean.onRowSelect}"
+                                    oncomplete="PF('dlgUpdate').show()" update=":FormReport:ordenDetail"/>
+                            <p:ajax event="rowUnselect" listener="#{pedidoBean.onRowUnselect}" update=":FormReport:growl"/>
+
+                            <p:column headerText="No. pedido" filterBy="#{pedido.idOrdenVenta}" filterMatchMode="contains">
+                                <h:outputText value="#{pedido.idOrdenVenta}" />
+                            </p:column>
+
+                            <p:column headerText="Estado" filterBy="#{pedido.estadoDocumentos.estado}" filterMatchMode="equals">
+                                <f:facet name="filter">
+                                    <p:selectOneMenu  id="estado" onchange="PF('tbOrders').filter()">
+                                        <f:selectItem itemLabel="#{msg['lbTodos']}" itemValue="#{null}" noSelectionOption="true"/>
+                                        <f:selectItems value="#{estadoDocsBean.filterEstado}"/>
+                                    </p:selectOneMenu>
+                                </f:facet>
+                                <h:outputText value="#{pedido.estadoDocumentos.estado}" />
+                            </p:column>
+
+                            <p:column headerText="Fecha entrega">
+                                <h:outputText value="#{pedido.fechaEntrega}">
+                                    <f:convertDateTime pattern="dd/MMM/yyyy" />
+                                </h:outputText>
+                            </p:column>
+
+                            <p:column headerText="Cliente" width="250" filterBy="#{pedido.cliente.nombre} #{pedido.cliente.apellido}" filterMatchMode="contains">
+                                <f:facet name="filter">
+                                    <p:selectOneMenu onchange="PF('tbOrders').filter()">
+                                        <f:selectItem itemLabel="#{msg['lbTodos']}" itemValue="#{null}" noSelectionOption="true"/>
+                                        <f:selectItems value="#{clienteBean.filterCliente}"/>
+                                    </p:selectOneMenu>
+                                </f:facet>
+                                <h:outputText value="#{pedido.cliente.nombre} #{pedido.cliente.apellido}" />
+                            </p:column>
+
+                            <p:column headerText="Prioridad" width="200" filterBy="#{pedido.prioridadAlta}">
+                                <f:facet name="filter">
+                                    <p:selectOneButton onchange="PF('tbOrders').filter()">
+                                        <f:selectItem itemLabel="#{msg['lbTodos']}" itemValue="" />
+                                        <f:selectItem itemLabel="#{msg['btnSi']}" itemValue="Y" />
+                                        <f:selectItem itemLabel="#{msg['btnNo']}" itemValue="N" />
+                                    </p:selectOneButton>
+                                </f:facet>
+                                <h:outputText value="#{pedido.prioridadAlta}" />
+                            </p:column>
+
+                            <p:column headerText="Dias restantes">
+                                <h:outputText value="#{pedido.diasRestantes}" />
+                            </p:column>
+
+                            <p:column headerText="Creada por" filterBy="#{pedido.empleado.nombre} #{pedido.empleado.apellido}" filterMatchMode="contains">
+                                <f:facet name="filter">
+                                    <p:selectOneMenu onchange="PF('tbOrders').filter()">
+                                        <f:selectItem itemLabel="#{msg['lbTodos']}" itemValue="#{null}" noSelectionOption="true"/>
+                                        <f:selectItems value="#{empleadoBean.filterEmpleados}"/>
+                                    </p:selectOneMenu>
+                                </f:facet>
+                                <h:outputText value="#{pedido.empleado.nombre} #{pedido.empleado.apellido}" />
+                            </p:column>
+
+                            <p:column headerText="Descripcion" filterBy="#{pedido.descripcion}" filterMatchMode="contains">
+                                <h:outputText value="#{pedido.descripcion}" />
+                            </p:column>
+                        </p:dataTable>
+
+                        <p:dialog header="#{msg['dlModificarOrden']}" id="dlUpdate" widgetVar="dlgUpdate" modal="true" showEffect="fade" hideEffect="fade" resizable="true">
+                                <p:panelGrid id="ordenDetail" columns="2" style="margin: 0 auto;" rendered="#{not empty pedidoBean.selectedOrden}" class="companyHeaderGrid">
+
+                                <h:outputText value="No. pedido" />
+                                <p:inputText value="#{pedidoBean.selectedOrden.idOrdenVenta}" disabled="true"/>
+
+                                <h:outputText value="Estado" />
+                                <p:selectOneMenu required="true" value="#{pedidoBean.selectedOrden.estadoDocumentos.idestadoDocumentos}">
+                                    <f:selectItems value="#{estadoDocsBean.selectOneItemsEstado}" />
+                                </p:selectOneMenu>
+                            </p:panelGrid>
+                        </p:dialog>
+                    </h:form>                
+                </div>
             </ui:define>
         </ui:composition>
 

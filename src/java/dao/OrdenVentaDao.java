@@ -23,6 +23,6 @@ public interface OrdenVentaDao {
 
     public boolean confirmarPedido(OrdenVenta oVenta);
     
-    public List<OrdenVenta> reportePedido(); //adicionar params
+    public List<OrdenVenta> reportePedido(/*Integer param1, Integer param2, String param3*/); 
 
 }

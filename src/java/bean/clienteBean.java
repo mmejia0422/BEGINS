@@ -29,6 +29,7 @@ public class clienteBean {
     private List<Cliente> clientes;
     private Cliente selectedCliente;
     private List<SelectItem> selectItemCliente;
+    private List<SelectItem> filterCliente;
     
     /**
      * Creates a new instance of clienteBean
@@ -116,5 +117,17 @@ public class clienteBean {
             this.selectItemCliente.add(selectItem);
         }
         return selectItemCliente;
+    }
+
+    public List<SelectItem> getFilterCliente() {
+        this.filterCliente = new ArrayList<SelectItem>();
+        ClienteDao cliente = new ClienteDaoImpl();
+        List<Cliente> listado = cliente.selectItems();
+        for (Cliente c : listado) {
+            SelectItem selectItem = new SelectItem(c.getNombre() + ' ' + c.getApellido());
+            this.filterCliente.add(selectItem);
+        }
+        
+        return filterCliente;
     }
 }

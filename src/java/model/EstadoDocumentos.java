@@ -41,6 +41,7 @@ public class EstadoDocumentos  implements java.io.Serializable {
         this.idestadoDocumentos = idestadoDocumentos;
     }
     public String getEstado() {
+        this.estado = this.estado.substring(0, 1).toUpperCase() + this.estado.substring(1).toLowerCase();
         return this.estado;
     }
     
